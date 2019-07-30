@@ -9,4 +9,4 @@ Screens:
 - [ ] Edit Profile (Challenge)
 - [ ] Photo Detail
 - [ ] Photo Comments (Challenge)
-- [ ] Photo Likes (Chalenge)
+- [ ] Photo Likes (Chalenge) 
