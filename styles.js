@@ -5,5 +5,7 @@ export default {
     lightGreyColor: 'rgb(230, 230, 230)',
     redColor: '#ed4956',
     blueColor: '#3897f0',
-    darkBlueColor: '#003569'
+    darkBlueColor: '#003569',
+    dressColor: '#d23730',
+    pantsColor: '#5d90fc'
 }

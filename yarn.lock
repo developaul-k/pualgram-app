@@ -1995,11 +1995,6 @@ dom-walk@^0.1.0:
   resolved "https://registry.yarnpkg.com/dom-walk/-/dom-walk-0.1.1.tgz#672226dc74c8f799ad35307df936aba11acd6018"
   integrity sha1-ZyIm3HTI95mtNTB9+TaroRrNYBg=
 
-dotenv@^8.0.0:
-  version "8.0.0"
-  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-8.0.0.tgz#ed310c165b4e8a97bb745b0a9d99c31bda566440"
-  integrity sha512-30xVGqjLjiUOArT4+M5q9sYdvuR4riM6yK9wMcas9Vbp6zZa+ocC9dp6QoftuhTPhFAiLK/0C5Ni2nou/Bk8lg==
-
 ee-first@1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/ee-first/-/ee-first-1.1.1.tgz#590c61156b0ae2f4f0255732a158b266bc56b21d"
@@ -2144,6 +2139,13 @@ expand-range@^1.8.1:
   dependencies:
     fill-range "^2.1.0"
 
+expo-app-auth@~6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/expo-app-auth/-/expo-app-auth-6.0.0.tgz#4b2535da16a0234f67e813708960fc146aec867e"
+  integrity sha512-/7dv/RXYfg4OGmm5xOJUTecezTqccxmaUuYx1jt+hoI/QqD+q5uvT2u5Phi8uU4WsE5bi8qlkSRNTpL+rGSVoQ==
+  dependencies:
+    invariant "^2.2.4"
+
 expo-app-loader-provider@~6.0.0:
   version "6.0.0"
   resolved "https://registry.yarnpkg.com/expo-app-loader-provider/-/expo-app-loader-provider-6.0.0.tgz#c187a39942ac27cfaec3b394a5c9851d3f39678b"
@@ -2183,6 +2185,14 @@ expo-font@~6.0.0:
   integrity sha512-VTKguIfFaCiSrrshts4hQQOngwESdWJ/2frZa/Okbr66noKIVBF8DJE7CH+8cpetn9Xj2JS/dt5ArA6Mk988zQ==
   dependencies:
     fontfaceobserver "^2.1.0"
+
+expo-google-app-auth@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/expo-google-app-auth/-/expo-google-app-auth-6.0.0.tgz#1d9e4603271fa89d36ebaf604adb0169739f4235"
+  integrity sha512-23gkverd0OKGuCSjCxR/Uo08GvlMpTBR5yipbfwGosqvEk3WuCAhISGWIEg0Ozd0WA8DfZ9AyQhLYyWkbM4EIQ==
+  dependencies:
+    expo-app-auth "~6.0.0"
+    expo-constants "~6.0.0"
 
 expo-keep-awake@~6.0.0:
   version "6.0.0"
@@ -4445,6 +4455,13 @@ react-native-safe-area-view@^0.14.1:
   integrity sha512-tOxHGQUN83MTmQB4ghoQkibqOdGiX4JQEmeyEv96MKWO/x8T2PJv84ECUos9hD3blPRQwVwSpAid1PPPhrVEaw==
   dependencies:
     debounce "^1.2.0"
+
+react-native-swiper@^1.5.14:
+  version "1.5.14"
+  resolved "https://registry.yarnpkg.com/react-native-swiper/-/react-native-swiper-1.5.14.tgz#1c6f949ca377186300f972bb0f30d24062c899aa"
+  integrity sha512-Kn0fxKooN7Shwu1qJYHB+Y8ssXXnvrIwReHXU5jCdyYNfz2QbBv0Cv3sa2Mqzr+XgzORCFFIokc8uCCUITDrVA==
+  dependencies:
+    prop-types "^15.5.10"
 
 react-native-tab-view@^1.2.0, react-native-tab-view@^1.4.1:
   version "1.4.1"

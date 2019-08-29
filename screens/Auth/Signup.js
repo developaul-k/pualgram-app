@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import * as Facebook from 'expo-facebook';
+import * as Google from 'expo-google-app-auth';
 import { Alert, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import styled from 'styled-components';
 import AuthButton from '../../components/AuthButton';
@@ -91,12 +92,7 @@ export default ({ navigation }) => {
           `https://graph.facebook.com/me?access_token=${token}&fields=id,last_name,first_name,email`
         );
         const { email, first_name, last_name } = await response.json();
-        const [username] = email.split('@');
-
-        emailInput.setValue(email);
-        fNameInput.setValue(first_name);
-        lNameInput.setValue(last_name);
-        usernameInput.setValue(username);
+        updateFormData(email, first_name, last_name);
         setLoading(false);
       } else {
         // type === 'cancel'
@@ -105,6 +101,42 @@ export default ({ navigation }) => {
       alert(`Facebook Login Error: ${message}`);
     }
   };
+
+  // Login Google
+  const googleLogin = async () => {
+    const GOOGLE_ID =
+      '666024111131-627od71lddoofap52n14ra98lc76cqr5.apps.googleusercontent.com';
+    try {
+      setLoading(true);
+      const result = await Google.logInAsync({
+        iosClientId: GOOGLE_ID,
+        scopes: ['profile', 'email']
+      });
+
+      if (result.type === 'success') {
+        const user = await fetch('https://www.googleapis.com/userinfo/v2/me', {
+          headers: { Authorization: `Bearer ${result.accessToken}` }
+        });
+        const { email, family_name: last_name, given_name: first_name  } = await user.json();
+        updateFormData(email, first_name, last_name);
+        return result.accessToken;
+      } else {
+        return { cancelled: true };
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+  const updateFormData = (email, firstName, lastName) => {
+    const [username] = email.split('@');
+
+    emailInput.setValue(email);
+    fNameInput.setValue(firstName);
+    lNameInput.setValue(lastName);
+    usernameInput.setValue(username);
+  }
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View>
@@ -143,8 +175,17 @@ export default ({ navigation }) => {
             loading={loading}
             text='Connect Facebook'
           />
+          <AuthButton
+            bgColor='#ee1922'
+            loading={false}
+            onPress={googleLogin}
+            loading={loading}
+            text='Connect Google'
+          />
         </FBContainer>
       </View>
     </TouchableWithoutFeedback>
   );
 };
+
+// 666024111131-627od71lddoofap52n14ra98lc76cqr5.apps.googleusercontent.com

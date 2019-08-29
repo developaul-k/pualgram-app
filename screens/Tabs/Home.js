@@ -1,17 +1,47 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { ScrollView, RefreshControl } from 'react-native';
+import { useQuery } from 'react-apollo-hooks';
+import { gql } from 'apollo-boost';
 import styled from 'styled-components';
+import Loader from '../../components/Loader';
+import Post from '../../components/Post';
+import { POST_FRAGMENT } from '../../fragments';
+
+const FEED_QUERY = gql`
+  {
+    seeFeed {
+      ...PostParts
+    }
+  }
+  ${POST_FRAGMENT}
+`;
 
 export default () => {
-  const View = styled.View`
-    flex: 1;
-    align-items: center;
-    justify-content: center;
-  `;
-  const Text = styled.Text``;
-
+  const [refreshing, setRefreshing] = useState(false);
+  const { loading, data, refetch } = useQuery(FEED_QUERY);
+  const refresh = async () => {
+    try {
+      setRefreshing(true);
+      await refetch();
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setRefreshing(false);
+    }
+  };
   return (
-    <View>
-      <Text>Home</Text>
-    </View>
+    <ScrollView
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={refresh} />
+      }
+    >
+      {loading ? (
+        <Loader />
+      ) : (
+        data &&
+        data.seeFeed &&
+        data.seeFeed.map(post => <Post key={post.id} {...post} />)
+      )}
+    </ScrollView>
   );
 };
