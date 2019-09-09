@@ -9,6 +9,7 @@ import Search from '../screens/Tabs/Search/SearchContainer';
 import Notifications from '../screens/Tabs/Notifications';
 import Profile from '../screens/Tabs/Profile';
 import Detail from '../screens/Detail';
+import UserDetail from '../screens/UserDetail';
 import MessagesLink from '../components/MessagesLink';
 import NavIcon from '../components/NavIcon';
 import SearchBar from '../components/SearchBar';
@@ -25,13 +26,20 @@ const stackFactory = (initialRoute, customConfig) =>
       Detail: {
         screen: Detail,
         navigationOptions: {
-          headerTintColor: styles.blackColor,
           title: 'Photo'
         }
+      },
+      UserDetail: {
+        screen: UserDetail,
+        navigationOptions: ({ navigation }) => ({
+          title: navigation.getParam('username')
+        })
       }
     },
     {
       defaultNavigationOptions: {
+        headerBackTitle: null,
+        headerTintColor: styles.blackColor,
         headerStyle: { ...stackStyles }
       }
     }
@@ -127,7 +135,7 @@ const TabNavigation = createBottomTabNavigator(
     }
   },
   {
-    initialRouteName: 'Profile',
+    initialRouteName: 'Home',
     tabBarOptions: {
       showLabel: false,
       style: {
