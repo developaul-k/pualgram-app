@@ -7,6 +7,7 @@ import styles from '../styles';
 import constants from '../constants';
 import SquarePhoto from './SquarePhoto';
 import Post from './Post';
+import { useLogOut } from '../AuthContext';
 
 const ProfileHeader = styled.View`
   padding: 20px;
@@ -62,12 +63,15 @@ const UserProfile = ({
   fullName,
   posts
 }) => {
+  const logout = useLogOut();
   const [isGrid, setIsGrid] = useState(true);
   const toggleGrid = () => setIsGrid(i => !i);
   return (
     <View>
       <ProfileHeader>
-        <Avatar source={{ uri: `http://localhost:4000${avatar}` }} />
+        <Touchable onPress={logout}>
+          <Avatar source={{ uri: `http://localhost:4000${avatar}` }} />
+        </Touchable>
         <HeaderColumn>
           <ProfileStatus>
             <Stat>

@@ -8,5 +8,10 @@ export default createStackNavigator(
     Messages,
     Message
   },
-  { defaultNavigationOptions: { headerStyle: { ...stackStyles } } }
+  {
+    defaultNavigationOptions: {
+      headerStyle: { ...stackStyles },
+      headerBackTitle: null
+    }
+  }
 );
