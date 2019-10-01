@@ -99,19 +99,24 @@ const SEE_ROOM = gql`
         username
         avatar
       }
-      messages {
+    }
+  }
+`;
+
+const MESSAGES = gql`
+  query messages($id: String!) {
+    messages(id: $id) {
+      id
+      text
+      createdAt
+      from {
         id
-        text
-        createdAt
-        from {
-          id
-          username
-        }
-        to {
-          id
-          avatar
-          username
-        }
+        username
+      }
+      to {
+        id
+        avatar
+        username
       }
     }
   }
@@ -140,13 +145,16 @@ const NEW_MESSAGE = gql`
     newMessage(roomId: $roomId) {
       id
       text
+      from {
+        id
+        username
+      }
     }
   }
 `;
 
 const Message = ({ navigation }) => {
   const id = navigation.getParam('roomId');
-  const [newMessages, setNewMessages] = useState([]);
   const [me, setMe] = useState('');
   const sendMessageInput = useInput('');
   const [sendMessageMutation] = useMutation(SEND_MESSAGE);
@@ -159,6 +167,15 @@ const Message = ({ navigation }) => {
     variables: { id },
     fetchPolicy: 'network-only'
   });
+
+  const { data: { messages: oldMessages } } = useQuery(MESSAGES, {
+    variables: {
+      id
+    }
+  });
+
+  const [newMessages, setNewMessages] = useState(oldMessages || []);
+
 
   const sendMessage = async () => {
     const { value: message, setValue } = sendMessageInput;
@@ -177,6 +194,7 @@ const Message = ({ navigation }) => {
       }
     });
 
+
     const {
       data: { sendMessage }
     } = await sendMessageMutation({
@@ -193,7 +211,7 @@ const Message = ({ navigation }) => {
   const handleNewMessage = () => {
     if (messageData !== undefined) {
       const { newMessage } = messageData;
-      setNewMessages(prevState => [...prevState, newMessage]);
+      setNewMessages([...newMessages, newMessage]);
     }
   };
 
@@ -208,18 +226,19 @@ const Message = ({ navigation }) => {
         <Loader />
       ) : (
         data &&
-        data.seeRoom && (
+        data.seeRoom &&
+        newMessages && (
           <MessageContainer>
             <MessageList>
-              {data.seeRoom.messages.length > 0 ? (
-                data.seeRoom.messages.map(message => (
+              {newMessages.length > 0 ? (
+                newMessages.map(message => (
                   <MessageColumn align={message.from.id === me ? 'right' : ''}>
-                    {/*message.from.id !== me && (
+                    {message.from.id !== me && (
                       <>
                         <Avatar source={{ uri: message.from.avatar }} />
                         <Username>{message.from.username}</Username>
                       </>
-                    )*/}
+                    )}
                     <Time>{moment(message.createdAt).format('hh:mm')}</Time>
                     <Text>{message.text}</Text>
                   </MessageColumn>
