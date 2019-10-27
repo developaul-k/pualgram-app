@@ -10,7 +10,10 @@ export default createStackNavigator(
   },
   {
     defaultNavigationOptions: {
-      headerStyle: { ...stackStyles },
+      headerStyle: {
+        ...stackStyles
+      },
+      headerTintColor: 'black',
       headerBackTitle: null
     }
   }

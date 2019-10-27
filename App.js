@@ -33,7 +33,10 @@ export default function App() {
 
       const cache = new InMemoryCache();
 
-      await Asset.loadAsync([require('./assets/splash_wally.png')]);
+      await Asset.loadAsync([
+        require('./assets/splash_wally.png'),
+        require('./assets/logo.png')
+      ]);
 
       await persistCache({
         cache,
@@ -57,9 +60,9 @@ export default function App() {
         return {
           headers: {
             ...headers,
-            authorization: token ? `Bearer ${token}` : "",
+            authorization: token ? `Bearer ${token}` : ''
           }
-        }
+        };
       });
 
       const link = ApolloLink.from([
@@ -68,7 +71,7 @@ export default function App() {
             graphQLErrors.forEach(({ message, locations, path }) => {
               console.log(
                 `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
-              )
+              );
             });
           if (networkError) console.log(`[Network error]: ${networkError}`);
         }),
@@ -83,11 +86,11 @@ export default function App() {
           wsLink,
           authLink.concat(httpLink)
         )
-      ])
+      ]);
 
       const client = new ApolloClient({
         link,
-        cache,
+        cache
         /* request: async operation => {
           const token = await AsyncStorage.getItem('jwt');
 

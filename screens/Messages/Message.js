@@ -156,6 +156,7 @@ const NEW_MESSAGE = gql`
 const Message = ({ navigation }) => {
   const id = navigation.getParam('roomId');
   const [me, setMe] = useState('');
+  const [newMessages, setNewMessages] = useState([]);
   const sendMessageInput = useInput('');
   const [sendMessageMutation] = useMutation(SEND_MESSAGE);
 
@@ -168,19 +169,15 @@ const Message = ({ navigation }) => {
     fetchPolicy: 'network-only'
   });
 
-  const { data: { messages: oldMessages } } = useQuery(MESSAGES, {
-    variables: {
-      id
-    }
+  const { data: oldMessage, loading: oldMessageLoading } = useQuery(MESSAGES, {
+    variables: { id },
+    fetchPolicy: 'network-only'
   });
-
-  const [newMessages, setNewMessages] = useState(oldMessages || []);
-
 
   const sendMessage = async () => {
     const { value: message, setValue } = sendMessageInput;
 
-    if (message === '') {
+    if (message.trim() === '') {
       return Alert.alert('메시지를 입력해주세요.');
     }
 
@@ -194,10 +191,7 @@ const Message = ({ navigation }) => {
       }
     });
 
-
-    const {
-      data: { sendMessage }
-    } = await sendMessageMutation({
+    const { data } = await sendMessageMutation({
       variables: {
         roomId: id,
         message,
@@ -217,19 +211,27 @@ const Message = ({ navigation }) => {
 
   useEffect(() => {
     setMe(meData.me.id);
+  }, []);
+
+  useEffect(() => {
     handleNewMessage();
   }, [messageData]);
 
+  useEffect(() => {
+    if (oldMessage && oldMessage.messages) {
+      setNewMessages(oldMessage.messages);
+    }
+  }, [oldMessage]);
+
   return (
     <View>
-      {loading ? (
+      {loading || oldMessageLoading ? (
         <Loader />
       ) : (
         data &&
-        data.seeRoom &&
-        newMessages && (
+        data.seeRoom && (
           <MessageContainer>
-            <MessageList>
+            <MessageList >
               {newMessages.length > 0 ? (
                 newMessages.map(message => (
                   <MessageColumn align={message.from.id === me ? 'right' : ''}>
@@ -268,7 +270,8 @@ const MessageHeader = ({ navigation }) => (
 );
 
 Message.navigationOptions = ({ navigation }) => ({
-  headerTitle: () => <MessageHeader navigation={navigation} />
+  headerTitle: () => <MessageHeader navigation={navigation} />,
+  headerTintColor: 'black',
 });
 
 export default Message;
