@@ -15,6 +15,7 @@ import NavIcon from '../components/NavIcon';
 import SearchBar from '../components/SearchBar';
 import styles from '../styles';
 import { stackStyles } from './config';
+import Comment from '../screens/Comment';
 
 const stackFactory = (initialRoute, customConfig) =>
   createStackNavigator(
@@ -34,6 +35,12 @@ const stackFactory = (initialRoute, customConfig) =>
         navigationOptions: ({ navigation }) => ({
           title: navigation.getParam('username')
         })
+      },
+      Comment: {
+        screen: Comment,
+        navigationOptions: {
+          title: '댓글'
+        }
       }
     },
     {

@@ -155,7 +155,7 @@ const Post = ({
               />
             </IconContainer>
           </Touchable>
-          <Touchable>
+          <Touchable onPress={() => navigation.navigate('Comment')}>
             <IconContainer>
               <Ionicons
                 name={Platform.OS === 'ios' ? 'ios-text' : 'md-text'}
