@@ -8,11 +8,12 @@ import Swiper from 'react-native-swiper';
 import { gql } from 'apollo-boost';
 import constants from '../constants';
 import styles from '../styles';
-import { useMutation } from 'react-apollo-hooks';
+import { useMutation } from '@apollo/react-hooks';
+import Avatar from '../components/Avatar';
 
 const TOGGLE_LIKE = gql`
-  mutation toggleLike($postId: String!) {
-    toggleLike(postId: $postId)
+  mutation toggleLike($postId: String!, $postUserId: String!) {
+    toggleLike(postId: $postId, postUserId: $postUserId)
   }
 `;
 
@@ -29,14 +30,6 @@ const HeaderUserContainer = styled.View`
 `;
 
 const Touchable = styled.TouchableOpacity``;
-
-const Avatar = styled.Image`
-  width: 40px;
-  height: 40px;
-  border-radius: 20px;
-  border: 1px solid #ccc;
-  background-color: ${props => props.greyColor};
-`;
 
 const FeedImage = styled.Image`
   width: ${constants.width};
@@ -92,7 +85,8 @@ const Post = ({
   const [likeCount, setLikeCount] = useState(likeCountProp);
   const [toggleLikeMutation] = useMutation(TOGGLE_LIKE, {
     variables: {
-      postId: id
+      postId: id,
+      postUserId: user.id
     }
   });
   const handleLike = async () => {
@@ -103,7 +97,7 @@ const Post = ({
     }
     setIsLiked(p => !p);
     try {
-      await toggleLikeMutation();
+      const toggleLikeResult = await toggleLikeMutation();
     } catch (err) {
       console.log(err);
     }
@@ -116,7 +110,7 @@ const Post = ({
             navigation.navigate('UserDetail', { username: user.username })
           }
         >
-          <Avatar source={{ uri: 'http://localhost:4000' + user.avatar }} />
+          <Avatar uri={`http://localhost:4000${user.avatar}`} />
         </Touchable>
         <Touchable
           onPress={() =>

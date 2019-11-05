@@ -8,7 +8,7 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import { persistCache } from 'apollo-cache-persist';
 import ApolloClient from 'apollo-client';
 import { ThemeProvider } from 'styled-components';
-import { ApolloProvider } from 'react-apollo-hooks';
+import { ApolloProvider } from '@apollo/react-hooks';
 import { AuthProvider } from './AuthContext';
 import NavControllers from './components/NavControllers';
 import styles from './styles';

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { TouchableOpacity } from 'react-native';
 import styled from 'styled-components';
 import gql from 'graphql-tag';
-import { useQuery } from 'react-apollo-hooks';
+import { useQuery } from '@apollo/react-hooks';
 import Loader from '../../components/Loader';
 import MessageList from '../../components/MessageList';
 import { MaterialIcons } from '@expo/vector-icons';

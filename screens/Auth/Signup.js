@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import AuthButton from '../../components/AuthButton';
 import AuthInput from '../../components/AuthInput';
 import useInput from '../../hooks/useInput';
-import { useMutation } from 'react-apollo-hooks';
+import { useMutation } from '@apollo/react-hooks';
 import { CREATE_ACCOUNT } from './AuthQueries';
 
 const View = styled.View`

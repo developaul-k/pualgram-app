@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import { gql } from 'apollo-boost';
 import styles from '../../styles';
 import constants from '../../constants';
-import { useMutation } from 'react-apollo-hooks';
+import { useMutation } from '@apollo/react-hooks';
 import { FEED_QUERY } from '../Tabs/Home';
 
 const UPLOAD = gql`

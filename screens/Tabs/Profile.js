@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { gql } from 'apollo-boost';
 import { USER_FRAGMENT } from '../../fragments';
 import Loader from '../../components/Loader';
-import { useQuery } from 'react-apollo-hooks';
+import { useQuery } from '@apollo/react-hooks';
 import UserProfile from '../../components/UserProfile';
 
 const ME = gql`

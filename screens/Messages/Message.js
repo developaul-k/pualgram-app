@@ -3,7 +3,7 @@ import { ScrollView, Alert } from 'react-native';
 import styled from 'styled-components';
 import gql from 'graphql-tag';
 import moment from 'moment';
-import { useQuery, useMutation, useSubscription } from 'react-apollo-hooks';
+import { useQuery, useMutation, useSubscription } from '@apollo/react-hooks';
 import Loader from '../../components/Loader';
 import { USER_FRAGMENT } from '../../fragments';
 import useInput from '../../hooks/useInput';
@@ -191,7 +191,7 @@ const Message = ({ navigation }) => {
       }
     });
 
-    const { data } = await sendMessageMutation({
+    await sendMessageMutation({
       variables: {
         roomId: id,
         message,
