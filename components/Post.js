@@ -97,7 +97,7 @@ const Post = ({
     }
     setIsLiked(p => !p);
     try {
-      const toggleLikeResult = await toggleLikeMutation();
+      await toggleLikeMutation();
     } catch (err) {
       console.log(err);
     }
@@ -155,7 +155,16 @@ const Post = ({
               />
             </IconContainer>
           </Touchable>
-          <Touchable onPress={() => navigation.navigate('Comment')}>
+          <Touchable
+            onPress={() =>
+              navigation.navigate('Comment', {
+                avatar: user.avatar,
+                comments,
+                username: user.username,
+                caption
+              })
+            }
+          >
             <IconContainer>
               <Ionicons
                 name={Platform.OS === 'ios' ? 'ios-text' : 'md-text'}

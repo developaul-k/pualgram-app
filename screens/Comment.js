@@ -6,40 +6,56 @@ import {
 } from 'react-native';
 import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
-import Loader from '../components/Loader';
 import styled from 'styled-components';
 import useInput from '../hooks/useInput';
+import CommentBox from '../components/CommentBox';
+import Avatar from '../components/Avatar';
+import Comment from '../components/Comment';
 
 const Container = styled.View`
   flex: 1;
 `;
-const CommentInput = styled.TextInput`
-  height: 50px;
-  border: 1px solid ${props => props.theme.lightGreyColor};
-  background-color: 'blue';
-`;
-const Text = styled.Text``;
 
 export default ({ navigation }) => {
   const comment = useInput('');
+  const comments = navigation.getParam('comments', []);
+  const avatarUri = navigation.getParam('avatar');
+  const username = navigation.getParam('username', 'dummy');
+  const caption = navigation.getParam('caption', 'dummy');
 
   return (
-    <KeyboardAvoidingView
-      behavior='position'
-      enabled
-      keyboardVerticalOffset={100}
-      contentContainerStyle={{ height: '100%' }}
-    >
+    <Container>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <Container>
-          <Text>댓글</Text>
+          <Comment
+            avatarUri={avatarUri}
+            username={username}
+            caption={caption}
+          />
+          {comments &&
+            comments.length > 0 &&
+            comments.map(comment => (
+              <Comment
+                key={comment.id}
+                avatarUri={comment.user.avatar}
+                username={comment.user.username}
+                caption={caption}
+              />
+            ))}
         </Container>
       </TouchableWithoutFeedback>
-      <CommentInput
-        onChangeText={comment.onChange}
-        value={comment.value}
-        multiline={true}
-      />
-    </KeyboardAvoidingView>
+      <KeyboardAvoidingView
+        behavior='position'
+        enabled
+        keyboardVerticalOffset={88}
+        contentContainerStyle={{
+          position: 'absolute',
+          bottom: 0,
+          justifyContent: 'flex-end'
+        }}
+      >
+        <CommentBox avatarUri={avatarUri} {...comment} />
+      </KeyboardAvoidingView>
+    </Container>
   );
 };
