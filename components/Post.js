@@ -180,7 +180,16 @@ const Post = ({
         <Caption>
           <Bold>{user.username}</Bold> {caption}
         </Caption>
-        <Touchable>
+        <Touchable
+          onPress={() =>
+            navigation.navigate('Comment', {
+              avatar: user.avatar,
+              comments,
+              username: user.username,
+              caption
+            })
+          }
+        >
           <CommentCount>See all {comments.length} comments</CommentCount>
         </Touchable>
       </InfoContainer>
