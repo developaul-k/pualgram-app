@@ -210,7 +210,7 @@ const Message = ({ navigation }) => {
   };
 
   useEffect(() => {
-    setMe(meData.me.id);
+    meData && meData.me && setMe(meData.me.id);
   }, []);
 
   useEffect(() => {
@@ -231,7 +231,7 @@ const Message = ({ navigation }) => {
         data &&
         data.seeRoom && (
           <MessageContainer>
-            <MessageList >
+            <MessageList>
               {newMessages.length > 0 ? (
                 newMessages.map(message => (
                   <MessageColumn align={message.from.id === me ? 'right' : ''}>
@@ -271,7 +271,7 @@ const MessageHeader = ({ navigation }) => (
 
 Message.navigationOptions = ({ navigation }) => ({
   headerTitle: () => <MessageHeader navigation={navigation} />,
-  headerTintColor: 'black',
+  headerTintColor: 'black'
 });
 
 export default Message;

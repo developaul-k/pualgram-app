@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Avatar from './Avatar';
 import constants from '../constants';
+import Loader from './Loader';
 
 const Container = styled.View`
   padding: 5px;
   border-top-width: 1px;
   border-top-color: ${props => props.theme.lightGreyColor};
+  background-color: ${props => props.theme.whiteColor};
   flex-direction: row;
 `;
 
@@ -27,7 +29,9 @@ const Touchable = styled.TouchableOpacity`
   bottom: 5px;
   align-items: center;
   justify-content: center;
-  ${props => props.disabled && `
+  ${props =>
+    props.disabled &&
+    `
     opacity: 0.5;
   `}
 `;
@@ -38,13 +42,16 @@ const Text = styled.Text`
   color: ${props => props.theme.blueColor};
 `;
 
-const CommentBox = ({ avatarUri, onChange, value }) => {
+const CommentBox = ({ avatarUri, addComment, commentInput, loading }) => {
+  useEffect(() => {
+    console.log();
+  }, []);
   return (
     <Container>
       <Avatar uri={`http://localhost:4000${avatarUri}`} />
       <CommentInput
-        onChangeText={onChange}
-        value={value}
+        onChangeText={commentInput.onChange}
+        value={commentInput.value}
         multiline={true}
         autoFocus={true}
         placeholder='댓글달기'
@@ -52,8 +59,11 @@ const CommentBox = ({ avatarUri, onChange, value }) => {
         autoCompleteType='off'
         autoCorrect={false}
       />
-      <Touchable disabled={value === ''}>
-        <Text>게시</Text>
+      <Touchable
+        onPress={() => addComment(commentInput.value)}
+        disabled={commentInput.value === ''}
+      >
+        {loading ? <Loader /> : <Text>게시</Text>}
       </Touchable>
     </Container>
   );
@@ -61,8 +71,15 @@ const CommentBox = ({ avatarUri, onChange, value }) => {
 
 CommentBox.propTypes = {
   avatarUri: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
-  value: PropTypes.string.isRequired
+  addComment: PropTypes.func.isRequired,
+  commentInput: PropTypes.objectOf(
+    PropTypes.shape({
+      onChange: PropTypes.func.isRequired,
+      setValue: PropTypes.func.isRequired,
+      value: PropTypes.string.isRequired
+    })
+  ),
+  loading: PropTypes.bool.isRequired
 };
 
 export default CommentBox;

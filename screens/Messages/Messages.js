@@ -13,12 +13,6 @@ const View = styled.View`
   justify-content: flex-start;
 `;
 
-const IconView = styled.View;
-
-const Text = styled.Text`
-  font-size: 15px;
-`;
-
 const SEE_ROOMS = gql`
   {
     seeRooms {

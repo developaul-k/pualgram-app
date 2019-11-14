@@ -161,7 +161,8 @@ const Post = ({
                 avatar: user.avatar,
                 comments,
                 username: user.username,
-                caption
+                caption,
+                postId: id
               })
             }
           >
@@ -186,7 +187,8 @@ const Post = ({
               avatar: user.avatar,
               comments,
               username: user.username,
-              caption
+              caption,
+              postId: id
             })
           }
         >
