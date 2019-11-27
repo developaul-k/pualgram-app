@@ -104,7 +104,6 @@ export default ({ navigation }) => {
   const keyboardDidShow = async e => {
     // e.endCoordinates.height
     await setKeyboardHeight(constants.height / 2);
-    flatNode !== null && flatNode.scrollToEnd({ animated: true });
   };
 
   const keyboardDidHide = e => {
@@ -143,6 +142,14 @@ export default ({ navigation }) => {
           />
         )}
         keyExtractor={(item, index) => index}
+        onContentSizeChange={() => {
+          // 처음 렌더링 시에만 호출
+          flatNode.scrollToEnd();
+        }}
+        onLayout={() => {
+          // 레이아웃이 변경될 떄 마다 호출
+          flatNode.scrollToEnd();
+        }}
       />
       <CommentBox
         avatarUri={avatar}
