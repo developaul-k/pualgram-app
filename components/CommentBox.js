@@ -42,10 +42,13 @@ const Text = styled.Text`
   color: ${props => props.theme.blueColor};
 `;
 
-const CommentBox = ({ avatarUri, addComment, commentInput, loading }) => {
-  useEffect(() => {
-    console.log();
-  }, []);
+const CommentBox = ({
+  avatarUri,
+  addComment,
+  commentInput,
+  loading,
+  commentRef
+}) => {
   return (
     <Container>
       <Avatar uri={`http://localhost:4000${avatarUri}`} />
@@ -53,11 +56,12 @@ const CommentBox = ({ avatarUri, addComment, commentInput, loading }) => {
         onChangeText={commentInput.onChange}
         value={commentInput.value}
         multiline={true}
-        autoFocus={true}
+        autoFocus={false}
         placeholder='댓글달기'
         autoCapitalize='none'
         autoCompleteType='off'
         autoCorrect={false}
+        ref={commentRef}
       />
       <Touchable
         onPress={() => addComment(commentInput.value)}

@@ -25,13 +25,25 @@ const SEE_ROOMS = gql`
       messages {
         id
         text
+        from {
+          id
+          avatar
+          username
+        }
+        to {
+          id
+          avatar
+          username
+        }
       }
     }
   }
 `;
 
 const Messages = ({ navigation }) => {
-  const { data, loading } = useQuery(SEE_ROOMS);
+  const { data, loading } = useQuery(SEE_ROOMS, {
+    fetchPolicy: 'network-only'
+  });
 
   return (
     <View>

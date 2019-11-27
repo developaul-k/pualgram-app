@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { withNavigation } from 'react-navigation';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
@@ -22,21 +22,30 @@ const Text = styled.Text`
   margin-left: 10px;
 `;
 
-export default withNavigation(({ navigation, id, participants, ...result }) => {
-  const [roomId] = useState(id);
-  const [toUserInfo, setToUserInfo] = useState('');
-  useEffect(() => {
+const MessageList = withNavigation(
+  ({ navigation, id, participants, messages }) => {
+    const [roomId] = useState(id);
     const [, toUser] = participants;
-    setToUserInfo(toUser);
-  }, []);
-  return (
-    <View>
-      <Touchable onPress={() => navigation.navigate('Message', { roomId, ...toUserInfo })}>
-        <Column>
-          <Avatar source={{ uri: toUserInfo.avatar }} />
-          <Text>{toUserInfo.username}</Text>
-        </Column>
-      </Touchable>
-    </View>
-  );
-});
+
+    return (
+      <View>
+        <Touchable
+          onPress={() =>
+            navigation.navigate('Message', {
+              roomId,
+              toUserInfo: toUser,
+              messages
+            })
+          }
+        >
+          <Column>
+            <Avatar source={{ uri: toUser.avatar }} />
+            <Text>{toUser.username}</Text>
+          </Column>
+        </Touchable>
+      </View>
+    );
+  }
+);
+
+export default MessageList;
