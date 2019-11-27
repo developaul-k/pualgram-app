@@ -104,9 +104,6 @@ export default ({ navigation }) => {
   const keyboardDidShow = async e => {
     // e.endCoordinates.height
     await setKeyboardHeight(constants.height / 2);
-  };
-
-  const keyboardDidChangeFrame = () => {
     flatNode !== null && flatNode.scrollToEnd({ animated: true });
   };
 
@@ -117,52 +114,43 @@ export default ({ navigation }) => {
   useEffect(() => {
     Keyboard.addListener('keyboardDidShow', keyboardDidShow);
     Keyboard.addListener('keyboardDidHide', keyboardDidHide);
-    Keyboard.addListener('keyboardDidChangeFrame', keyboardDidChangeFrame);
     if (data && data.seeComments) {
       setScomments(prev => [...prev, ...data.seeComments]);
     }
     return () => {
       Keyboard.removeListener('keyboardDidShow', keyboardDidShow);
       Keyboard.removeListener('keyboardDidHide', keyboardDidHide);
-      Keyboard.removeListener('keyboardDidChangeFrame', keyboardDidChangeFrame);
     };
   }, [data, flatNode]);
-
-  /**
-   * 코멘트 screen 접근 시 키보드에 포커스 트리거
-   */
-  /* useEffect(() => {
-    commentNode !== null && commentNode.focus();
-  }, [commentNode]); */
 
   return loading ? (
     <Loader />
   ) : (
-    <Container>
-      <View style={{ flex: 1, height: keyboardHeight }}>
-        <FlatList
-          ref={flatRef}
-          data={sComments}
-          renderItem={({ item }) => (
-            <Comment
-              avatarUri={item.user.avatar}
-              username={item.user.username}
-              caption={item.text}
-              type={item.type && item.type}
-            />
-          )}
-          keyExtractor={(item, index) => index}
-        />
-      </View>
-      <KeyboardAvoidingView behavior='padding' keyboardVerticalOffset={88}>
-        <CommentBox
-          avatarUri={avatar}
-          addComment={addComment}
-          commentInput={commentInput}
-          loading={addCommentLoading}
-          commentRef={commentRef}
-        />
-      </KeyboardAvoidingView>
-    </Container>
+    <KeyboardAvoidingView
+      behavior='padding'
+      keyboardVerticalOffset={88}
+      style={{ flex: 1 }}
+    >
+      <FlatList
+        ref={flatRef}
+        data={sComments}
+        renderItem={({ item }) => (
+          <Comment
+            avatarUri={item.user.avatar}
+            username={item.user.username}
+            caption={item.text}
+            type={item.type && item.type}
+          />
+        )}
+        keyExtractor={(item, index) => index}
+      />
+      <CommentBox
+        avatarUri={avatar}
+        addComment={addComment}
+        commentInput={commentInput}
+        loading={addCommentLoading}
+        commentRef={commentRef}
+      />
+    </KeyboardAvoidingView>
   );
 };
