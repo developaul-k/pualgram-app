@@ -44,7 +44,7 @@ const TextInput = styled.TextInput`
   border-top-width: 0;
   border-right-width: 0;
   border-left-width: 0;
-  background-color: '#f00';
+  background-color: #fff;
 `;
 const Button = styled.TouchableOpacity`
   background-color: ${props => props.theme.blueColor};
