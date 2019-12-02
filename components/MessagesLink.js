@@ -11,6 +11,11 @@ const Container = styled.TouchableOpacity`
 
 export default withNavigation(({ navigation }) => (
   <Container onPress={() => navigation.navigate('MessageNavigation')}>
-    <NavIcon focused={false} name={Platform.OS === 'ios' ? 'ios-paper-plane' : 'md-paper-plane'} color={styles.pantsColor} size="26" />
+    <NavIcon
+      focused={false}
+      name={Platform.OS === 'ios' ? 'ios-paper-plane' : 'md-paper-plane'}
+      color={styles.pantsColor}
+      size={26}
+    />
   </Container>
 ));

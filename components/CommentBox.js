@@ -51,7 +51,7 @@ const CommentBox = ({
 }) => {
   return (
     <Container>
-      <Avatar uri={`http://localhost:4000${avatarUri}`} />
+      <Avatar uri={`${constants.devServer}${avatarUri}`} />
       <CommentInput
         onChangeText={commentInput.onChange}
         value={commentInput.value}

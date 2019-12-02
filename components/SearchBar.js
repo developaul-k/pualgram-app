@@ -1,28 +1,34 @@
 import React from 'react';
-import { TextInput } from 'react-native';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 import constants from '../constants';
 import styles from '../styles';
 
-// const TextInput = styled.TextInput``;
+const View = styled.View`
+  width: ${constants.width};
+  justify-content: center;
+  align-items: center;
+`;
+const TextInput = styled.TextInput`
+  width: ${constants.width - 40};
+  height: 35px;
+  background-color: ${styles.lightGreyColor};
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+`;
 
 const SearchBar = ({ value, onChange, onSubmit }) => (
-  <TextInput
-    style={{
-      width: constants.width - 40,
-      height: 35,
-      backgroundColor: styles.lightGreyColor,
-      padding: 10,
-      borderRadius: 5,
-      textAlign: 'center'
-    }}
-    returnKeyType='search'
-    onChangeText={onChange}
-    onSubmitEditing={onSubmit}
-    value={value}
-    placeholder='Search'
-    placeholderTextColor={styles.darkGreyColor}
-  />
+  <View>
+    <TextInput
+      returnKeyType='search'
+      onChangeText={onChange}
+      onSubmitEditing={onSubmit}
+      value={value}
+      placeholder='Search'
+      placeholderTextColor={styles.darkGreyColor}
+    />
+  </View>
 );
 
 SearchBar.propTypes = {

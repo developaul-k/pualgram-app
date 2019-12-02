@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Avatar from './Avatar';
 import { Ionicons } from '@expo/vector-icons';
+import constants from '../constants';
 
 const Container = styled.View`
   padding: 10px;
@@ -39,7 +40,7 @@ const Comment = ({ avatarUri, username, caption, type }) => {
   return (
     <Container>
       <Column>
-        <Avatar uri={`http://localhost:4000${avatarUri}`} />
+        <Avatar uri={`${constants.devServer}${avatarUri}`} />
         <Username>{username}</Username>
         <Text>{caption}</Text>
       </Column>

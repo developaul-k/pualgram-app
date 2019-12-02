@@ -70,7 +70,7 @@ const UserProfile = ({
     <View>
       <ProfileHeader>
         <Touchable onPress={logout}>
-          <Avatar source={{ uri: `http://localhost:4000${avatar}` }} />
+          <Avatar source={{ uri: `${constants.devServer}${avatar}` }} />
         </Touchable>
         <HeaderColumn>
           <ProfileStatus>

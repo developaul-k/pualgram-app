@@ -30,6 +30,7 @@ export default ({ navigation }) => {
 
     try {
       setLoading(true);
+
       const {
         data: { requestSecret }
       } = await requestSecretMutation({
@@ -37,6 +38,8 @@ export default ({ navigation }) => {
           email: emailInput.value
         }
       });
+
+      console.log('@here')
 
       if (requestSecret) {
         Alert.alert('Check your email');

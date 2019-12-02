@@ -81,13 +81,23 @@ export default ({ navigation }) => {
 
     try {
       setLoading(true);
-      const {
-        data: { location }
-      } = await axios.post('http://localhost:4000/api/upload', formData, {
+
+      const response = await fetch(`${constants.devServer}/api/upload`, {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        },
+        body: formData
+      });
+
+      const { location } = await response.json();
+
+      /* await axios.post(`${constants.devServer}/api/upload`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
-      });
+      }); */
       setFileUrl(location);
 
       const {
@@ -99,11 +109,13 @@ export default ({ navigation }) => {
           location: locationInput.value
         }
       });
+      console.log({ upload });
       if (upload.id) {
         navigation.navigate('TabNavigation');
       }
     } catch (err) {
       Alert.alert('Cant upload try again');
+      console.log(err);
     } finally {
       setLoading(false);
     }

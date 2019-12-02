@@ -5,6 +5,7 @@ import { useLazyQuery } from '@apollo/react-hooks';
 import styled from 'styled-components';
 import Loader from '../../components/Loader';
 import Avatar from '../../components/Avatar';
+import constants from '../../constants';
 
 const SEE_NOTIFICATIONS = gql`
   {
@@ -50,7 +51,7 @@ const Row = styled.View`
 
 const Column = styled.View`
   ${props =>
-    props.flex &&
+    props.columnFlex &&
     `
     flex-direction: row;
     align-items: center;
@@ -88,6 +89,7 @@ export default ({ navigation }) => {
 
   useEffect(() => {
     getNotifications();
+    console.log('get Effect');
     // 탭 전환 시에 componentDidUnmout가 일어나지 않음 반대로 componentDidMount도 초기에 접근할 떄만 호출 됨
     const willFoucsSubscription = navigation.addListener('willFocus', () => {
       getNotifications();
@@ -117,10 +119,10 @@ export default ({ navigation }) => {
         <Container>
           {data.seeNotifications.map(notification => (
             <Row>
-              <Column flex>
+              <Column columnFlex>
                 <Column>
                   <Avatar
-                    uri={`http://localhost:4000${notification.creator.avatar}`}
+                    uri={`${constants.devServer}${notification.creator.avatar}`}
                   />
                 </Column>
                 <Column>
@@ -137,7 +139,7 @@ export default ({ navigation }) => {
                     source={{
                       uri:
                         file.url.indexOf('http') === -1
-                          ? 'http://localhost:4000' + file.url
+                          ? `${constants.devServer}${file.url}`
                           : file.url
                     }}
                   />

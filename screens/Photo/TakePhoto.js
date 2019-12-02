@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, Text } from 'react-native';
 import styled from 'styled-components';
 import * as Permissions from 'expo-permissions';
 import * as MediaLibrary from 'expo-media-library';
@@ -50,10 +50,12 @@ export default ({ navigation }) => {
       const { status } = await Permissions.askAsync(Permissions.CAMERA);
       if (status === 'granted') {
         setHasPermission(true);
+        console.log('granted!!!!');
       }
     } catch (err) {
       console.log(err);
       setHasPermission(false);
+      console.log('error!!!!');
     } finally {
       setLoading(false);
     }
@@ -69,6 +71,9 @@ export default ({ navigation }) => {
 
   useEffect(() => {
     askPermission();
+    return () => {
+      console.log('take unmount');
+    };
   }, []);
 
   return (
@@ -76,7 +81,7 @@ export default ({ navigation }) => {
       {loading ? (
         <Loader />
       ) : hasPermission ? (
-        <>
+        <View>
           <Camera
             ref={cameraRef}
             type={cameraType}
@@ -106,9 +111,9 @@ export default ({ navigation }) => {
               <Button />
             </TouchableOpacity>
           </View>
-        </>
+        </View>
       ) : (
-        'Not Permissions'
+        <Text>Not Permissions</Text>
       )}
     </View>
   );

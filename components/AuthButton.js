@@ -10,7 +10,8 @@ const Container = styled.View`
   padding: 10px 0;
   width: ${constants.width - 100};
   border-radius: 4px;
-  background-color: ${props => props.bgColor ? props.bgColor : props.theme.blueColor};
+  background-color: ${props =>
+    props.bgColor ? props.bgColor : props.theme.blueColor};
 `;
 const Text = styled.Text`
   font-weight: 600;
@@ -20,7 +21,7 @@ const Text = styled.Text`
 const AuthButton = ({ text, onPress, loading = false, bgColor = null }) => (
   <Touchable disabled={loading} onPress={onPress}>
     <Container bgColor={bgColor}>
-      {loading ? <ActivityIndicator color={'white'} /> : <Text>{text}</Text>}
+      {loading ? <ActivityIndicator color='white' /> : <Text>{text}</Text>}
     </Container>
   </Touchable>
 );

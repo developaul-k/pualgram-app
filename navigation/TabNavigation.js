@@ -16,13 +16,14 @@ import SearchBar from '../components/SearchBar';
 import styles from '../styles';
 import { stackStyles } from './config';
 import Comment from '../screens/Comment';
+import constants from '../constants';
 
 const stackFactory = (initialRoute, customConfig) =>
   createStackNavigator(
     {
       InitialRoute: {
         screen: initialRoute,
-        navigationOptions: { ...customConfig }
+        navigationOptions: { ...customConfig, headerLayoutPreset: 'center' }
       },
       Detail: {
         screen: Detail,
@@ -39,7 +40,9 @@ const stackFactory = (initialRoute, customConfig) =>
       Comment: {
         screen: Comment,
         navigationOptions: {
-          title: '댓글'
+          title: '댓글',
+          headerTitleStyle: { alignSelf: 'center' },
+          headerLayoutPreset: 'center'
         }
       }
     },
@@ -47,7 +50,8 @@ const stackFactory = (initialRoute, customConfig) =>
       defaultNavigationOptions: {
         headerBackTitle: null,
         headerTintColor: styles.blackColor,
-        headerStyle: { ...stackStyles }
+        headerStyle: { ...stackStyles },
+        headerLayoutPreset: 'center'
       }
     }
   );
@@ -58,11 +62,19 @@ const TabNavigation = createBottomTabNavigator(
       screen: stackFactory(Home, {
         headerRight: <MessagesLink />,
         headerTitle: (
-          <Image
-            style={{ height: 45 }}
-            resizeMode='contain'
-            source={require('../assets/logo.png')}
-          />
+          <View
+            style={{
+              width: constants.width,
+              justifyContent: 'center',
+              alignItems: 'center'
+            }}
+          >
+            <Image
+              style={{ height: 45 }}
+              resizeMode='contain'
+              source={require('../assets/logo.png')}
+            />
+          </View>
         )
       }),
       navigationOptions: {

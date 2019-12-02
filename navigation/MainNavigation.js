@@ -12,10 +12,11 @@ const MainNavigation = createStackNavigator(
   },
   {
     defaultNavigationOptions: {
-      headerStyle: { ...stackStyles }
+      headerStyle: { ...stackStyles },
+      gesturesEnabled: true
     },
     headerMode: 'none',
-    mode: 'modal'
+    mode: 'modal',
   }
 );
 

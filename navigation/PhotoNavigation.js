@@ -1,5 +1,5 @@
 import {
-  createMaterialTopTabNavigator,
+  createBottomTabNavigator,
   createStackNavigator
 } from 'react-navigation';
 import SelectPhoto from '../screens/Photo/SelectPhoto';
@@ -8,18 +8,18 @@ import UploadPhoto from '../screens/Photo/UploadPhoto';
 import { stackStyles } from './config';
 import styles from '../styles';
 
-const PhotoTabs = createMaterialTopTabNavigator(
+const PhotoTabs = createBottomTabNavigator(
   {
     Take: {
       screen: TakePhoto,
       navigationOptions: {
-        tabBarLabel: 'Take'
+        tabBarLabel: '카메라'
       }
     },
     Select: {
       screen: SelectPhoto,
       navigationOptions: {
-        tabBarLabel: 'Select'
+        tabBarLabel: '라이브러리'
       }
     }
   },
@@ -31,13 +31,16 @@ const PhotoTabs = createMaterialTopTabNavigator(
         backgroundColor: styles.blackColor
       },
       labelStyle: {
-        color: styles.blackColor,
-        fontWeight: 600
+        fontWeight: '600'
       },
       style: {
-        paddingBottom: 20,
-        ...stackStyles
-      }
+        ...stackStyles,
+        justifyContent: 'center',
+        alignItems: 'center'
+      },
+      showIcon: false,
+      activeTintColor: '#000',
+      inactiveTintColor: '#bbb'
     }
   }
 );

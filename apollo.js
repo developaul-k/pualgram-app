@@ -1,5 +1,11 @@
-const apolloClientOptions = {
-    uri: 'http://localhost:4000'
-}
+import constants from './constants';
 
-export default apolloClientOptions;
+const httpApolloClientOptions = {
+  uri: constants.devServer
+};
+
+const wsApolloClientOptions = {
+  uri: constants.devServer
+};
+
+export { httpApolloClientOptions, wsApolloClientOptions };

@@ -10,7 +10,7 @@ const SquarePhoto = ({ navigation, files = [], id }) => (
       source={{
         uri:
           files[0].url.indexOf('http') === -1
-            ? 'http://localhost:4000' + files[0].url
+            ? `${constants.devServer}${files[0].url}`
             : files[0].url
       }}
       style={{ width: constants.width / 3, height: constants.height / 6 }}

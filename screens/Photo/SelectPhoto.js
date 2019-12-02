@@ -66,6 +66,9 @@ export default ({ navigation }) => {
 
   useEffect(() => {
     askPermission();
+    return () => {
+      console.log('select unmount');
+    };
   }, []);
 
   return (

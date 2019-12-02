@@ -10,6 +10,7 @@ import ApolloClient from 'apollo-client';
 import { ThemeProvider } from 'styled-components';
 import { ApolloProvider } from '@apollo/react-hooks';
 import { AuthProvider } from './AuthContext';
+import { httpApolloClientOptions, wsApolloClientOptions } from './apollo';
 import NavControllers from './components/NavControllers';
 import styles from './styles';
 
@@ -44,12 +45,12 @@ export default function App() {
       });
 
       const httpLink = new HttpLink({
-        uri: 'http://localhost:4000',
+        ...httpApolloClientOptions,
         credentials: 'same-origin'
       });
 
       const wsLink = new WebSocketLink({
-        uri: `ws://localhost:4000/`,
+        ...wsApolloClientOptions,
         options: {
           reconnect: true
         }

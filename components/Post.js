@@ -110,7 +110,7 @@ const Post = ({
             navigation.navigate('UserDetail', { username: user.username })
           }
         >
-          <Avatar uri={`http://localhost:4000${user.avatar}`} />
+          <Avatar uri={`${constants.devServer}${user.avatar}`} />
         </Touchable>
         <Touchable
           onPress={() =>
@@ -130,7 +130,7 @@ const Post = ({
             source={{
               uri:
                 file.url.indexOf('http') === -1
-                  ? 'http://localhost:4000' + file.url
+                  ? `${constants.devServer}${file.url}`
                   : file.url
             }}
           />
