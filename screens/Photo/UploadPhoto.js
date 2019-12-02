@@ -72,17 +72,34 @@ export default ({ navigation }) => {
     const formData = new FormData();
     const name = photo.filename;
     const [, type] = name.split('.');
-
+    console.log({ type: type.toLowerCase() });
     formData.append('file', {
       name: photo.filename,
-      type: type.toLowerCase(),
+      type: `image/${type.toLowerCase()}`,
       uri: photo.uri
     });
 
     try {
       setLoading(true);
 
-      const response = await fetch(`${constants.devServer}/api/upload`, {
+      let xhr = new XMLHttpRequest();
+      let location = '';
+      xhr.open('POST', `${constants.devServer}/api/upload`, true);
+      xhr.setRequestHeader('Content-Type', 'multipart/form-data');
+      xhr.onreadystatechange = async function() {
+        // 요청에 대한 콜백
+        if (xhr.readyState === xhr.DONE) {
+          // 요청이 완료되면
+          if (xhr.status === 200 || xhr.status === 201) {
+            location = await xhr.responseText;
+          } else {
+            console.error(xhr.responseText);
+          }
+        }
+      };
+      xhr.send(formData);
+
+      /* const response = await fetch(`${constants.devServer}/api/upload`, {
         method: 'POST',
         mode: 'cors',
         headers: {
@@ -91,7 +108,7 @@ export default ({ navigation }) => {
         body: formData
       });
 
-      const { location } = await response.json();
+      const { location } = await response.json(); */
 
       /* await axios.post(`${constants.devServer}/api/upload`, formData, {
         headers: {
