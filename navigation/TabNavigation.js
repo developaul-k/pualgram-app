@@ -40,9 +40,7 @@ const stackFactory = (initialRoute, customConfig) =>
       Comment: {
         screen: Comment,
         navigationOptions: {
-          title: '댓글',
-          headerTitleStyle: { alignSelf: 'center' },
-          headerLayoutPreset: 'center'
+          title: '댓글'
         }
       }
     },
@@ -50,9 +48,9 @@ const stackFactory = (initialRoute, customConfig) =>
       defaultNavigationOptions: {
         headerBackTitle: null,
         headerTintColor: styles.blackColor,
-        headerStyle: { ...stackStyles },
-        headerLayoutPreset: 'center'
-      }
+        headerStyle: { ...stackStyles }
+      },
+      headerLayoutPreset: 'center'
     }
   );
 
@@ -71,20 +69,19 @@ const TabNavigation = createBottomTabNavigator(
           >
             <Image
               style={{ height: 45 }}
-              resizeMode='contain'
+              resizeMode="contain"
               source={require('../assets/logo.png')}
             />
           </View>
         )
       }),
       navigationOptions: {
-        tabBarIcon: ({ focused }) => (
+        tabBarIcon: ({ focused }) =>
           <NavIcon
             focused={focused}
             name={Platform.OS === 'ios' ? 'ios-home' : 'md-home'}
             color={styles.pantsColor}
           />
-        )
       }
     },
     Search: {
@@ -92,13 +89,12 @@ const TabNavigation = createBottomTabNavigator(
         headerBackTitle: null
       }),
       navigationOptions: {
-        tabBarIcon: ({ focused }) => (
+        tabBarIcon: ({ focused }) =>
           <NavIcon
             focused={focused}
             name={Platform.OS === 'ios' ? 'ios-search' : 'md-search'}
             color={styles.pantsColor}
           />
-        )
       }
     },
     Add: {
@@ -106,14 +102,13 @@ const TabNavigation = createBottomTabNavigator(
       navigationOptions: {
         tabBarOnPress: ({ navigation }) =>
           navigation.navigate('PhotoNavigation'),
-        tabBarIcon: ({ focused }) => (
+        tabBarIcon: ({ focused }) =>
           <NavIcon
             focused={focused}
             name={Platform.OS === 'ios' ? 'ios-add' : 'md-add'}
             color={styles.dressColor}
             size={33}
           />
-        )
       }
     },
     Notifications: {
@@ -121,21 +116,16 @@ const TabNavigation = createBottomTabNavigator(
         title: 'Notifications'
       }),
       navigationOptions: {
-        tabBarIcon: ({ focused }) => (
+        tabBarIcon: ({ focused }) =>
           <NavIcon
             focused={focused}
             name={
               Platform.OS === 'ios'
-                ? focused
-                  ? 'ios-heart'
-                  : 'ios-heart-empty'
-                : focused
-                ? 'md-heart'
-                : 'md-heart-empty'
+                ? focused ? 'ios-heart' : 'ios-heart-empty'
+                : focused ? 'md-heart' : 'md-heart-empty'
             }
             color={styles.pantsColor}
           />
-        )
       }
     },
     Profile: {
@@ -143,13 +133,12 @@ const TabNavigation = createBottomTabNavigator(
         title: 'Profile'
       }),
       navigationOptions: {
-        tabBarIcon: ({ focused }) => (
+        tabBarIcon: ({ focused }) =>
           <NavIcon
             focused={focused}
             name={Platform.OS === 'ios' ? 'ios-person' : 'md-person'}
             color={styles.pantsColor}
           />
-        )
       }
     }
   },

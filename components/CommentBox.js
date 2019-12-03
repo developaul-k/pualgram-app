@@ -16,10 +16,9 @@ const Container = styled.View`
 const CommentInput = styled.TextInput`
   width: ${constants.width - 55};
   margin-left: 5px;
-  padding: 10px 0 10px 10px;
+  padding: 5px;
   border: 1px solid ${props => props.theme.lightGreyColor};
   border-radius: 25px;
-  background-color: 'blue';
 `;
 
 const Touchable = styled.TouchableOpacity`
@@ -33,7 +32,7 @@ const Touchable = styled.TouchableOpacity`
     props.disabled &&
     `
     opacity: 0.5;
-  `}
+  `};
 `;
 
 const Text = styled.Text`
@@ -57,9 +56,9 @@ const CommentBox = ({
         value={commentInput.value}
         multiline={true}
         autoFocus={true}
-        placeholder='댓글달기'
-        autoCapitalize='none'
-        autoCompleteType='off'
+        placeholder="댓글달기"
+        autoCapitalize="none"
+        autoCompleteType="off"
         autoCorrect={false}
         ref={commentRef}
       />
@@ -76,13 +75,11 @@ const CommentBox = ({
 CommentBox.propTypes = {
   avatarUri: PropTypes.string.isRequired,
   addComment: PropTypes.func.isRequired,
-  commentInput: PropTypes.objectOf(
-    PropTypes.shape({
-      onChange: PropTypes.func.isRequired,
-      setValue: PropTypes.func.isRequired,
-      value: PropTypes.string.isRequired
-    })
-  ),
+  commentInput: PropTypes.shape({
+    onChange: PropTypes.func.isRequired,
+    setValue: PropTypes.func.isRequired,
+    value: PropTypes.string.isRequired
+  }),
   loading: PropTypes.bool.isRequired
 };
 

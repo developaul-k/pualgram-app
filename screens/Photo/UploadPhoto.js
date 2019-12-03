@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { Image, Alert, ActivityIndicator } from 'react-native';
 import useInput from '../../hooks/useInput';
 import styled from 'styled-components';
@@ -28,9 +27,7 @@ const Text = styled.Text`
   color: white;
   font-weight: 600;
 `;
-const Column = styled.View`
-  width: 100px;
-`;
+const Column = styled.View`width: 100px;`;
 const InputColumn = styled(Column)`
   margin-left: 15px;
   width: ${constants.width - 155};
@@ -72,7 +69,7 @@ export default ({ navigation }) => {
     const formData = new FormData();
     const name = photo.filename;
     const [, type] = name.split('.');
-    console.log({ type: type.toLowerCase() });
+
     formData.append('file', {
       name: photo.filename,
       type: `image/${type.toLowerCase()}`,
@@ -82,24 +79,7 @@ export default ({ navigation }) => {
     try {
       setLoading(true);
 
-      let xhr = new XMLHttpRequest();
-      let location = '';
-      xhr.open('POST', `${constants.devServer}/api/upload`, true);
-      xhr.setRequestHeader('Content-Type', 'multipart/form-data');
-      xhr.onreadystatechange = async function() {
-        // 요청에 대한 콜백
-        if (xhr.readyState === xhr.DONE) {
-          // 요청이 완료되면
-          if (xhr.status === 200 || xhr.status === 201) {
-            location = await xhr.responseText;
-          } else {
-            console.error(xhr.responseText);
-          }
-        }
-      };
-      xhr.send(formData);
-
-      /* const response = await fetch(`${constants.devServer}/api/upload`, {
+      const response = await fetch(`${constants.devServer}/api/upload`, {
         method: 'POST',
         mode: 'cors',
         headers: {
@@ -108,25 +88,18 @@ export default ({ navigation }) => {
         body: formData
       });
 
-      const { location } = await response.json(); */
+      const { location } = await response.json();
 
-      /* await axios.post(`${constants.devServer}/api/upload`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      }); */
       setFileUrl(location);
 
-      const {
-        data: { upload }
-      } = await uploadMutation({
+      const { data: { upload } } = await uploadMutation({
         variables: {
           caption: captionInput.value,
           files: [location],
           location: locationInput.value
         }
       });
-      console.log({ upload });
+
       if (upload.id) {
         navigation.navigate('TabNavigation');
       }
@@ -150,22 +123,20 @@ export default ({ navigation }) => {
       <InputColumn>
         <Form>
           <TextInput
-            placeholder='Caption'
+            placeholder="Caption"
             onChangeText={captionInput.onChange}
             value={captionInput.value}
             multiline={true}
           />
           <TextInput
-            placeholder='Location'
+            placeholder="Location"
             onChangeText={locationInput.onChange}
             value={locationInput.value}
           />
           <Button onPress={handleSubmit}>
-            {loading ? (
-              <ActivityIndicator size='small' color='#fff' />
-            ) : (
-              <Text>Upload</Text>
-            )}
+            {loading
+              ? <ActivityIndicator size="small" color="#fff" />
+              : <Text>Upload</Text>}
           </Button>
         </Form>
       </InputColumn>

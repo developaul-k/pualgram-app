@@ -15,7 +15,7 @@
     "splash": {
       "image": "./assets/splash_wally.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#fff"
     },
     "updates": {
       "fallbackToCacheTimeout": 0

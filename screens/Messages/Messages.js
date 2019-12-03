@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import { TouchableOpacity } from 'react-native';
 import styled from 'styled-components';
 import gql from 'graphql-tag';
@@ -44,6 +44,10 @@ const Messages = ({ navigation }) => {
   const { data, loading } = useQuery(SEE_ROOMS, {
     fetchPolicy: 'network-only'
   });
+
+  useEffect(() => {
+    console.log({ data });
+  }, [data])
 
   return (
     <View>

@@ -12,7 +12,7 @@ const View = styled.View`
 const TextInput = styled.TextInput`
   width: ${constants.width - 40};
   height: 35px;
-  background-color: ${styles.lightGreyColor};
+  background-color: ${props => props.theme.lightGreyColor};
   padding: 10px;
   border-radius: 5px;
   text-align: center;

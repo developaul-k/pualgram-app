@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import {
   KeyboardAvoidingView,
-  Animated,
   FlatList,
   Keyboard,
-  View
+  Platform
 } from 'react-native';
 import styled from 'styled-components';
 import { gql } from 'apollo-boost';
@@ -127,7 +126,9 @@ export default ({ navigation }) => {
   ) : (
     <KeyboardAvoidingView
       behavior='padding'
-      keyboardVerticalOffset={88}
+      keyboardVerticalOffset={
+        Platform.OS === 'ios' ? 88 : 81
+      }
       style={{ flex: 1 }}
     >
       <FlatList
@@ -141,7 +142,7 @@ export default ({ navigation }) => {
             type={item.type && item.type}
           />
         )}
-        keyExtractor={(item, index) => index}
+        keyExtractor={(item, index) => `${index}`}
         onContentSizeChange={() => {
           // 처음 렌더링 시에만 호출
           flatNode.scrollToEnd();

@@ -27,7 +27,7 @@ const AuthButton = ({ text, onPress, loading = false, bgColor = null }) => (
 );
 
 AuthButton.propTypes = {
-  loading: PropTypes.bool.isRequired,
+  loading: PropTypes.bool,
   text: PropTypes.string.isRequired,
   onPress: PropTypes.func.isRequired
 };

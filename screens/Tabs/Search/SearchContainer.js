@@ -33,9 +33,9 @@ const SearchContainer = ({ navigation }) => {
 SearchContainer.navigationOptions = ({ navigation }) => ({
   headerTitle: (
     <SearchBar
-      value={navigation.getParam('term')}
-      onChange={navigation.getParam('onChange')}
-      onSubmit={navigation.getParam('onSubmit')}
+      value={navigation.getParam('term', '')}
+      onChange={navigation.getParam('onChange', () => null)}
+      onSubmit={navigation.getParam('onSubmit', () => null)}
     />
   )
 });

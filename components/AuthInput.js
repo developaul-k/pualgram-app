@@ -10,7 +10,7 @@ const TextInput = styled.TextInput`
   width: ${constants.width - 100};
   padding: 10px;
   border: 1px solid ${props => props.theme.darkGreyColor};
-  background-color: ${props => props.theme.greyCOlor};
+  background-color: ${props => props.theme.greyColor};
   border-radius: 4px;
 `;
 
@@ -39,7 +39,7 @@ const AuthInput = ({
 );
 
 AuthInput.propTypes = {
-  placeholer: PropTypes.string.isRequired,
+  placeholder: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
   keyboardType: PropTypes.oneOf([
     'default',

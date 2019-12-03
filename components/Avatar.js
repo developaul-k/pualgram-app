@@ -8,6 +8,17 @@ const Avatar = styled.View`
   border: 1px solid #ccc;
   background-color: ${props => props.theme.greyColor};
   overflow: hidden;
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  ${props =>
+    props.small &&
+    `
+  margin-right: 10px;
+  width: 30px;
+  height: 30px;
+  border-radius: 15px;
+`};
 `;
 
 const AvatarImage = styled.Image`
@@ -15,8 +26,7 @@ const AvatarImage = styled.Image`
   height: 40px;
 `;
 
-export default ({ uri }) => (
-  <Avatar>
+export default ({ uri, small = false }) =>
+  <Avatar small={small}>
     <AvatarImage source={{ uri }} />
-  </Avatar>
-);
+  </Avatar>;

@@ -1,9 +1,7 @@
 import styled from 'styled-components';
 import constants from '../../../constants';
 
-export const MessageContainer = styled.SafeAreaView`
-  flex: 1;
-`;
+export const MessageContainer = styled.SafeAreaView`flex: 1;`;
 
 export const MessageInputBox = styled.View`
   padding: 5px 10px;
@@ -30,20 +28,4 @@ export const Header = styled.View`
 `;
 export const HeaderText = styled(Text)`
   font-weight: 600;
-`;
-
-export const Avatar = styled.Image`
-  width: 40px;
-  height: 40px;
-  border-radius: 20px;
-  ${props =>
-    props.small &&
-    `
-  margin-right: 10px;
-  width: 30px;
-  height: 30px;
-  border-radius: 15px;
-`}
-  border: 1px solid #ccc;
-  background-color: ${props => props.greyColor};
 `;

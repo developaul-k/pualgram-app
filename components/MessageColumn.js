@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import moment from 'moment';
+import Avatar from './Avatar';
 
 const MessageColumn = styled.View`
   margin: 5px;
@@ -22,22 +23,6 @@ const MessageBox = styled.View`
   align-items: center;
 `;
 
-const Avatar = styled.Image`
-  width: 40px;
-  height: 40px;
-  border-radius: 20px;
-  ${props =>
-    props.small &&
-    `
-    margin-right: 10px;
-    width: 30px;
-    height: 30px;
-    border-radius: 15px;
-  `}
-  border: 1px solid #ccc;
-  background-color: ${props => props.greyColor};
-`;
-
 const Text = styled.Text``;
 
 const Username = styled(Text)`
@@ -56,7 +41,7 @@ const Message = ({ from, createdAt, text, me }) => {
       <MessageBox>
         {from.id !== me && (
           <>
-            <Avatar source={{ uri: from.avatar }} />
+            <Avatar uri={from.avatar} />
             <Username>{from.username}</Username>
           </>
         )}

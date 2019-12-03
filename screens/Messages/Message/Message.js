@@ -7,11 +7,11 @@ import {
   MessageInput,
   Text,
   Header,
-  HeaderText,
-  Avatar
+  HeaderText
 } from './styles';
 
 import MessageColumn from '../../../components/MessageColumn';
+import Avatar from '../../../components/Avatar';
 import useInput from '../../../hooks/useInput';
 import { MESSAGES, ME, SEND_MESSAGE, NEW_MESSAGE } from './queries';
 
@@ -21,7 +21,9 @@ const Message = ({ navigation }) => {
   const messagesParam = navigation.getParam('messages');
 
   const [me, setMe] = useState('');
-  const [newMessages, setNewMessages] = useState(Array.from(messagesParam).reverse());
+  const [newMessages, setNewMessages] = useState(
+    Array.from(messagesParam).reverse()
+  );
   const sendMessageInput = useInput('');
 
   const [sendMessageMutation] = useMutation(SEND_MESSAGE);
@@ -69,18 +71,24 @@ const Message = ({ navigation }) => {
     meData && meData.me && setMe(meData.me.id);
   }, []);
 
-  useEffect(() => {
-    handleNewMessage();
-  }, [messageData]);
+  useEffect(
+    () => {
+      handleNewMessage();
+    },
+    [messageData]
+  );
 
-  useEffect(() => {
-    if (data && data.messages) setNewMessages(data.messages.reverse());
-  }, [data]);
+  useEffect(
+    () => {
+      if (data && data.messages) setNewMessages(data.messages.reverse());
+    },
+    [data]
+  );
 
   return (
     <MessageContainer>
       <KeyboardAvoidingView
-        behavior='position'
+        behavior="position"
         enabled
         keyboardVerticalOffset={90}
       >
@@ -88,14 +96,14 @@ const Message = ({ navigation }) => {
           data={newMessages}
           renderItem={({ item }) => <MessageColumn {...item} me={me} />}
           ListEmptyComponent={() => <Text>대화 내용이 없습니다.</Text>}
-          keyExtractor={({ index }) => index}
+          keyExtractor={(item) => item.id}
           inverted={true}
           extraData={newMessages}
           style={{ marginBottom: 50 }}
         />
       </KeyboardAvoidingView>
       <KeyboardAvoidingView
-        behavior='position'
+        behavior="position"
         enabled
         keyboardVerticalOffset={88}
         contentContainerStyle={{
@@ -110,7 +118,7 @@ const Message = ({ navigation }) => {
             value={sendMessageInput.value}
             onSubmitEditing={sendMessage}
             autoCorrect={false}
-            placeholder='메시지를 입력해주세요.'
+            placeholder="메시지를 입력해주세요."
           />
         </MessageInputBox>
       </KeyboardAvoidingView>
@@ -122,8 +130,10 @@ const MessageHeader = ({ navigation }) => {
   const { avatar, username } = navigation.getParam('toUserInfo');
   return (
     <Header>
-      <Avatar source={{ uri: avatar }} small />
-      <HeaderText>{username}</HeaderText>
+      <Avatar uri={avatar} />
+      <HeaderText>
+        {username}
+      </HeaderText>
     </Header>
   );
 };

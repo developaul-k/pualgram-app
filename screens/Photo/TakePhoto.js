@@ -50,12 +50,10 @@ export default ({ navigation }) => {
       const { status } = await Permissions.askAsync(Permissions.CAMERA);
       if (status === 'granted') {
         setHasPermission(true);
-        console.log('granted!!!!');
       }
     } catch (err) {
       console.log(err);
       setHasPermission(false);
-      console.log('error!!!!');
     } finally {
       setLoading(false);
     }
@@ -71,50 +69,45 @@ export default ({ navigation }) => {
 
   useEffect(() => {
     askPermission();
-    return () => {
-      console.log('take unmount');
-    };
   }, []);
 
   return (
     <View>
-      {loading ? (
-        <Loader />
-      ) : hasPermission ? (
-        <View>
-          <Camera
-            ref={cameraRef}
-            type={cameraType}
-            style={{
-              justifyContent: 'flex-end',
-              padding: 15,
-              width: constants.width,
-              height: constants.height / 2
-            }}
-          >
-            <TouchableOpacity onPress={toggleType}>
-              <Icon>
-                <Ionicons
-                  name={
-                    Platform.OS === 'ios'
-                      ? 'ios-reverse-camera'
-                      : 'md-reverse-camera'
-                  }
-                  size={30}
-                  color={styles.lightGreyColor}
-                />
-              </Icon>
-            </TouchableOpacity>
-          </Camera>
-          <View>
-            <TouchableOpacity onPress={takePhoto} disabled={!canTakePhoto}>
-              <Button />
-            </TouchableOpacity>
-          </View>
-        </View>
-      ) : (
-        <Text>Not Permissions</Text>
-      )}
+      {loading
+        ? <Loader />
+        : hasPermission
+          ? <View>
+              <Camera
+                ref={cameraRef}
+                type={cameraType}
+                style={{
+                  justifyContent: 'flex-end',
+                  padding: 15,
+                  width: constants.width,
+                  height: constants.height / 2
+                }}
+              >
+                <TouchableOpacity onPress={toggleType}>
+                  <Icon>
+                    <Ionicons
+                      name={
+                        Platform.OS === 'ios'
+                          ? 'ios-reverse-camera'
+                          : 'md-reverse-camera'
+                      }
+                      size={30}
+                      color={styles.lightGreyColor}
+                    />
+                  </Icon>
+                </TouchableOpacity>
+              </Camera>
+              <View>
+                <TouchableOpacity onPress={takePhoto} disabled={!canTakePhoto}>
+                  <Button />
+                </TouchableOpacity>
+              </View>
+            </View>
+          : <Text>Not Permissions</Text>}
     </View>
   );
 };

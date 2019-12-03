@@ -39,8 +39,6 @@ export default ({ navigation }) => {
         }
       });
 
-      console.log('@here')
-
       if (requestSecret) {
         Alert.alert('Check your email');
         navigation.navigate('Confirm', { email: value });

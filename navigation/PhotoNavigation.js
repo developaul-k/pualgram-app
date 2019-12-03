@@ -8,18 +8,43 @@ import UploadPhoto from '../screens/Photo/UploadPhoto';
 import { stackStyles } from './config';
 import styles from '../styles';
 
+const stackFactory = (initialRoute, customOptions) =>
+  createStackNavigator(
+    {
+      initialRoute: {
+        screen: initialRoute
+      },
+      Upload: {
+        screen: UploadPhoto,
+        navigationOptions: {
+          title: '새 게시물'
+        }
+      }
+    },
+    {
+      defaultNavigationOptions: {
+        ...customOptions,
+        headerStyle: {
+          ...stackStyles
+        },
+        headerTintColor: styles.blackColor
+      },
+      headerLayoutPreset: 'center'
+    }
+  );
+
 const PhotoTabs = createBottomTabNavigator(
   {
     Take: {
-      screen: TakePhoto,
+      screen: stackFactory(TakePhoto, { title: '카메라' }),
       navigationOptions: {
-        tabBarLabel: '카메라'
+        title: '카메라'
       }
     },
     Select: {
-      screen: SelectPhoto,
+      screen: stackFactory(SelectPhoto, { title: '라이브러리' }),
       navigationOptions: {
-        tabBarLabel: '라이브러리'
+        title: '라이브러리'
       }
     }
   },
@@ -45,14 +70,12 @@ const PhotoTabs = createBottomTabNavigator(
   }
 );
 
-export default createStackNavigator(
+export default PhotoTabs;
+
+/* export default createStackNavigator(
   {
     Tabs: {
-      screen: PhotoTabs,
-      navigationOptions: {
-        title: 'Choose Photo',
-        headerBackTitle: null
-      }
+      screen: PhotoTabs
     },
     Upload: {
       screen: UploadPhoto,
@@ -62,11 +85,17 @@ export default createStackNavigator(
     }
   },
   {
+    headerMode: 'none',
     defaultNavigationOptions: {
       headerStyle: {
         ...stackStyles
       },
-      headerTintColor: styles.blackColor
+      headerTintColor: styles.blackColor,
+      headerTitleStyle: {
+        flex: 1,
+        textAlign: 'center'
+      }
     }
   }
 );
+ */

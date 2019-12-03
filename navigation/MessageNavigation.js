@@ -15,6 +15,7 @@ export default createStackNavigator(
       },
       headerTintColor: 'black',
       headerBackTitle: null
-    }
+    },
+    headerLayoutPreset: 'center'
   }
 );
