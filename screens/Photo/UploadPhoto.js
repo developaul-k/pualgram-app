@@ -27,7 +27,9 @@ const Text = styled.Text`
   color: white;
   font-weight: 600;
 `;
-const Column = styled.View`width: 100px;`;
+const Column = styled.View`
+  width: 100px;
+`;
 const InputColumn = styled(Column)`
   margin-left: 15px;
   width: ${constants.width - 155};
@@ -59,7 +61,8 @@ export default ({ navigation }) => {
   const locationInput = useInput('');
 
   const [uploadMutation] = useMutation(UPLOAD, {
-    refetchQueries: () => [{ query: FEED_QUERY }]
+    refetchQueries: () => [{ query: FEED_QUERY }],
+    awaitRefetchQueries: true
   });
 
   const handleSubmit = async () => {
@@ -90,9 +93,11 @@ export default ({ navigation }) => {
 
       const { location } = await response.json();
 
-      setFileUrl(location);
+      await setFileUrl(location);
 
-      const { data: { upload } } = await uploadMutation({
+      const {
+        data: { upload }
+      } = await uploadMutation({
         variables: {
           caption: captionInput.value,
           files: [location],
@@ -123,20 +128,22 @@ export default ({ navigation }) => {
       <InputColumn>
         <Form>
           <TextInput
-            placeholder="Caption"
+            placeholder='Caption'
             onChangeText={captionInput.onChange}
             value={captionInput.value}
             multiline={true}
           />
           <TextInput
-            placeholder="Location"
+            placeholder='Location'
             onChangeText={locationInput.onChange}
             value={locationInput.value}
           />
           <Button onPress={handleSubmit}>
-            {loading
-              ? <ActivityIndicator size="small" color="#fff" />
-              : <Text>Upload</Text>}
+            {loading ? (
+              <ActivityIndicator size='small' color='#fff' />
+            ) : (
+              <Text>Upload</Text>
+            )}
           </Button>
         </Form>
       </InputColumn>

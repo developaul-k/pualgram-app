@@ -1,35 +1,33 @@
+import React from 'react';
 import {
   createBottomTabNavigator,
   createStackNavigator
 } from 'react-navigation';
+import styled from 'styled-components';
 import SelectPhoto from '../screens/Photo/SelectPhoto';
 import TakePhoto from '../screens/Photo/TakePhoto';
 import UploadPhoto from '../screens/Photo/UploadPhoto';
-import { stackStyles } from './config';
+import { stackStyles, stackTitleStyles } from './config';
 import styles from '../styles';
 
-const stackFactory = (initialRoute, customOptions) =>
+const HeaderTitle = styled.Text`
+  font-size: 15px;
+  font-weight: 500;
+`;
+
+const stackFactory = (initailRoute, configure) =>
   createStackNavigator(
     {
-      initialRoute: {
-        screen: initialRoute
-      },
-      Upload: {
-        screen: UploadPhoto,
-        navigationOptions: {
-          title: '새 게시물'
-        }
+      initailRoute: {
+        screen: initailRoute,
+        navigationOptions: { ...configure }
       }
     },
     {
+      headerLayoutPreset: 'center',
       defaultNavigationOptions: {
-        ...customOptions,
-        headerStyle: {
-          ...stackStyles
-        },
-        headerTintColor: styles.blackColor
-      },
-      headerLayoutPreset: 'center'
+        headerTitle: ({ children }) => <HeaderTitle>{children}</HeaderTitle>
+      }
     }
   );
 
@@ -70,32 +68,33 @@ const PhotoTabs = createBottomTabNavigator(
   }
 );
 
-export default PhotoTabs;
-
-/* export default createStackNavigator(
+export default createStackNavigator(
   {
     Tabs: {
-      screen: PhotoTabs
+      screen: PhotoTabs,
+      navigationOptions: {
+        title: '카메라',
+        header: null
+      }
     },
     Upload: {
       screen: UploadPhoto,
       navigationOptions: {
-        title: 'Upload'
+        title: '새 게시물'
       }
     }
   },
   {
-    headerMode: 'none',
+    headerLayoutPreset: 'center',
     defaultNavigationOptions: {
       headerStyle: {
         ...stackStyles
       },
       headerTintColor: styles.blackColor,
       headerTitleStyle: {
-        flex: 1,
-        textAlign: 'center'
-      }
+        ...stackTitleStyles
+      },
+      headerBackTitle: null
     }
   }
 );
- */
