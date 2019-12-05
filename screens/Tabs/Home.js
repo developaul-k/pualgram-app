@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { ScrollView, RefreshControl } from 'react-native';
+import { FlatList, ActivityIndicator } from 'react-native';
 import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import Loader from '../../components/Loader';
 import Post from '../../components/Post';
+import EmptyList from '../../components/EmptyList';
 import { POST_FRAGMENT } from '../../fragments';
 
 export const FEED_QUERY = gql`
@@ -28,19 +29,14 @@ export default () => {
       setRefreshing(false);
     }
   };
-  return (
-    <ScrollView
-      refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={refresh} />
-      }
-    >
-      {loading ? (
-        <Loader />
-      ) : (
-        data &&
-        data.seeFeed &&
-        data.seeFeed.map(post => <Post key={post.id} {...post} />)
-      )}
-    </ScrollView>
-  );
+  return loading
+    ? <Loader />
+    : <FlatList
+        data={data.seeFeed}
+        renderItem={({ item }) => <Post {...item} />}
+        ListEmptyComponent={() => <EmptyList caption="새로운 피드가 없습니다." />}
+        keyExtractor={item => item.id}
+        refreshing={refreshing}
+        onRefresh={refresh}
+      />;
 };

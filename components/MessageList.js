@@ -17,6 +17,8 @@ const MessageList = withNavigation(
     const [roomId] = useState(id);
     const [, toUser] = participants;
 
+    console.log({ messages: messages.length });
+
     return (
       <View>
         <Touchable
@@ -24,7 +26,7 @@ const MessageList = withNavigation(
             navigation.navigate('Message', {
               roomId,
               toUserInfo: toUser,
-              messages
+              messages: Array.from(messages).reverse()
             })}
         >
           <Column>

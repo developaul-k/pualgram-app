@@ -26,7 +26,10 @@ const stackFactory = (initailRoute, configure) =>
     {
       headerLayoutPreset: 'center',
       defaultNavigationOptions: {
-        headerTitle: ({ children }) => <HeaderTitle>{children}</HeaderTitle>
+        headerTitle: ({ children }) =>
+          <HeaderTitle>
+            {children}
+          </HeaderTitle>
       }
     }
   );
@@ -49,17 +52,13 @@ const PhotoTabs = createBottomTabNavigator(
   {
     tabBarPosition: 'bottom',
     tabBarOptions: {
-      indicatorStyle: {
-        marginBottom: 20,
-        backgroundColor: styles.blackColor
-      },
       labelStyle: {
         fontWeight: '600'
       },
-      style: {
+      tabStyle: {
         ...stackStyles,
-        justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        justifyContent: 'center'
       },
       showIcon: false,
       activeTintColor: '#000',

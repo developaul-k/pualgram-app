@@ -35,6 +35,7 @@ const SEE_ROOMS = gql`
           avatar
           username
         }
+        createdAt
       }
     }
   }
@@ -42,28 +43,32 @@ const SEE_ROOMS = gql`
 
 const Messages = ({ navigation }) => {
   const { data, loading } = useQuery(SEE_ROOMS, {
-    fetchPolicy: 'network-only'
+    fetchPolicy: 'network-only',
+    variables: {
+      first: 5
+    }
   });
 
-  useEffect(() => {
-    console.log({ data });
-  }, [data])
+  useEffect(
+    () => {
+      console.log(data && data.seeRooms && data.seeRooms[0].messages.length);
+    },
+    [data]
+  );
 
   return (
     <View>
-      {loading ? (
-        <Loader />
-      ) : (
-        data &&
-        data.seeRooms.map(room => <MessageList key={room.id} {...room} />)
-      )}
+      {loading
+        ? <Loader />
+        : data &&
+          data.seeRooms.map(room => <MessageList key={room.id} {...room} />)}
     </View>
   );
 };
 
 Messages.navigationOptions = ({ navigation }) => ({
   headerTitle: 'Direct',
-  headerLeft: () => (
+  headerLeft: () =>
     <TouchableOpacity
       onPress={() => navigation.dismiss()}
       style={{
@@ -73,9 +78,8 @@ Messages.navigationOptions = ({ navigation }) => ({
         justifyContent: 'center'
       }}
     >
-      <MaterialIcons name='close' color='#000' size={25} />
+      <MaterialIcons name="close" color="#000" size={25} />
     </TouchableOpacity>
-  )
 });
 
 export default Messages;

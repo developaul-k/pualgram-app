@@ -5,13 +5,13 @@ import {
   MessageContainer,
   MessageInputBox,
   MessageInput,
-  Text,
   Header,
   HeaderText
 } from './styles';
 
 import MessageColumn from '../../../components/MessageColumn';
 import Avatar from '../../../components/Avatar';
+import EmptyList from '../../../components/EmptyList';
 import useInput from '../../../hooks/useInput';
 import { MESSAGES, ME, SEND_MESSAGE, NEW_MESSAGE } from './queries';
 
@@ -21,9 +21,7 @@ const Message = ({ navigation }) => {
   const messagesParam = navigation.getParam('messages');
 
   const [me, setMe] = useState('');
-  const [newMessages, setNewMessages] = useState(
-    Array.from(messagesParam).reverse()
-  );
+  const [newMessages, setNewMessages] = useState(messagesParam);
   const sendMessageInput = useInput('');
 
   const [sendMessageMutation] = useMutation(SEND_MESSAGE);
@@ -31,8 +29,8 @@ const Message = ({ navigation }) => {
     variables: { roomId: id }
   });
   const { data: meData } = useQuery(ME);
-  const { data } = useQuery(MESSAGES, {
-    variables: { id },
+  const { data, fetchMore } = useQuery(MESSAGES, {
+    variables: { id, skip: 10 },
     fetchPolicy: 'network-only'
   });
 
@@ -78,12 +76,16 @@ const Message = ({ navigation }) => {
     [messageData]
   );
 
-  useEffect(
+  /* useEffect(
     () => {
-      if (data && data.messages) setNewMessages(data.messages.reverse());
+      if (data && data.messages)
+        setNewMessages([
+          ...newMessages,
+          ...Array.from(data.messages).reverse()
+        ]);
     },
     [data]
-  );
+  ); */
 
   return (
     <MessageContainer>
@@ -95,10 +97,33 @@ const Message = ({ navigation }) => {
         <FlatList
           data={newMessages}
           renderItem={({ item }) => <MessageColumn {...item} me={me} />}
-          ListEmptyComponent={() => <Text>대화 내용이 없습니다.</Text>}
-          keyExtractor={(item) => item.id}
+          ListEmptyComponent={() => <EmptyList caption="대화 내용이 없습니다." />}
+          keyExtractor={item => item.id}
           inverted={true}
           extraData={newMessages}
+          onEndReachedThreshold={0.5}
+          onEndReached={() => {
+            fetchMore({
+              variables: { skip: newMessages.length },
+              updateQuery: (previousResult, { fetchMoreResult }) => {
+                if (!fetchMoreResult || fetchMoreResult.messages.length === 0) {
+                  return previousResult;
+                }
+
+                setNewMessages([
+                  ...newMessages,
+                  ...Array.from(fetchMoreResult.messages).reverse()
+                ]);
+
+                return {
+                  // Append the new messages results to the old one
+                  messages: previousResult.messages.concat(
+                    fetchMoreResult.messages
+                  )
+                };
+              }
+            });
+          }}
           style={{ marginBottom: 50 }}
         />
       </KeyboardAvoidingView>
@@ -130,7 +155,7 @@ const MessageHeader = ({ navigation }) => {
   const { avatar, username } = navigation.getParam('toUserInfo');
   return (
     <Header>
-      <Avatar uri={avatar} />
+      <Avatar uri={avatar} small={true} />
       <HeaderText>
         {username}
       </HeaderText>

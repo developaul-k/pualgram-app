@@ -29,6 +29,8 @@ const SEE_NOTIFICATIONS = gql`
         }
       }
       notificationType
+      comment
+      createdAt
     }
   }
 `;

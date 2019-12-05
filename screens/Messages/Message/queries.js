@@ -2,8 +2,8 @@ import gql from 'graphql-tag';
 import { USER_FRAGMENT } from '../../../fragments';
 
 export const MESSAGES = gql`
-  query messages($id: String!) {
-    messages(id: $id) {
+  query messages($id: String!, $skip: Int) {
+    messages(id: $id, skip: $skip) {
       id
       text
       createdAt

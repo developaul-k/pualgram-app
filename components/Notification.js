@@ -1,6 +1,8 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import 'moment/locale/ko';
+import moment from 'moment';
 import Avatar from './Avatar';
 import constants from '../constants';
 
@@ -15,6 +17,7 @@ const Column = styled.View`
   ${props =>
     props.columnFlex &&
     `
+    width: ${constants.width - 110};
     flex-direction: row;
     align-items: center;
   `};
@@ -26,31 +29,45 @@ const Image = styled.Image`
 `;
 
 const Text = styled.Text`margin-left: 10px;`;
+const TimeStamp = styled.Text`
+  font-size: 12px;
+  color: #888;
+`;
 
-const Notification = ({ creator, post, index }) =>
+const Notification = ({
+  creator,
+  post,
+  index,
+  notificationType,
+  comment,
+  createdAt
+}) =>
   <Row key={index}>
     <Column columnFlex>
-      <Column>
+      <Column first={true}>
         <Avatar uri={`${constants.devServer}${creator.avatar}`} />
       </Column>
       <Column>
-        <Text>
-          {creator.username}님이 회원님의 사진을 좋아합니다.
+        <Text ellipsizeMode="tail" numberOfLines={3}>
+          {notificationType === 'LIKE' &&
+            `${creator.username}님이 회원님의 사진을 좋아합니다.`}
+          {notificationType === 'COMMENT' &&
+            <Text>
+              {creator.username}님이 회원님이 댓글을 남겼습니다: {comment}{' '}
+              <TimeStamp>{moment(createdAt).fromNow()}</TimeStamp>
+            </Text>}
         </Text>
       </Column>
     </Column>
     <Column>
-      {post.files.map((file, index) =>
-        <Image
-          key={index}
-          source={{
-            uri:
-              file.url.indexOf('http') === -1
-                ? `${constants.devServer}${file.url}`
-                : file.url
-          }}
-        />
-      )}
+      <Image
+        source={{
+          uri:
+            post.files[0].url.indexOf('http') === -1
+              ? `${constants.devServer}${post.files[0].url}`
+              : post.files[0].url
+        }}
+      />
     </Column>
   </Row>;
 

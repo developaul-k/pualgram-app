@@ -24,9 +24,15 @@ const Avatar = styled.View`
 const AvatarImage = styled.Image`
   width: 40px;
   height: 40px;
+  ${props =>
+    props.small &&
+    `
+    width: 40px;
+    height: 40px;
+  `};
 `;
 
 export default ({ uri, small = false }) =>
   <Avatar small={small}>
-    <AvatarImage source={{ uri }} />
+    <AvatarImage source={{ uri }} small={small} />
   </Avatar>;
