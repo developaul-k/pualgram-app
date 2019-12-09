@@ -32,7 +32,9 @@ export default function App() {
         ...Ionicons.font
       });
 
-      const cache = new InMemoryCache();
+      const cache = new InMemoryCache({
+        dataIdFromObject: object => object.id
+      });
 
       await Asset.loadAsync([
         require('./assets/splash_wally.png'),
@@ -129,15 +131,13 @@ export default function App() {
     preLoad();
   }, []);
 
-  return loaded && client && isLoggedIn !== null ? (
-    <ApolloProvider client={client}>
-      <ThemeProvider theme={styles}>
-        <AuthProvider isLoggedIn={isLoggedIn}>
-          <NavControllers />
-        </AuthProvider>
-      </ThemeProvider>
-    </ApolloProvider>
-  ) : (
-    <AppLoading />
-  );
+  return loaded && client && isLoggedIn !== null
+    ? <ApolloProvider client={client}>
+        <ThemeProvider theme={styles}>
+          <AuthProvider isLoggedIn={isLoggedIn}>
+            <NavControllers />
+          </AuthProvider>
+        </ThemeProvider>
+      </ApolloProvider>
+    : <AppLoading />;
 }

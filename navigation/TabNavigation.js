@@ -14,7 +14,7 @@ import MessagesLink from '../components/MessagesLink';
 import NavIcon from '../components/NavIcon';
 import SearchBar from '../components/SearchBar';
 import styles from '../styles';
-import { stackStyles } from './config';
+import { stackStyles, stackTitleStyles } from './config';
 import Comment from '../screens/Comment';
 import constants from '../constants';
 
@@ -48,7 +48,10 @@ const stackFactory = (initialRoute, customConfig) =>
       defaultNavigationOptions: {
         headerBackTitle: null,
         headerTintColor: styles.blackColor,
-        headerStyle: { ...stackStyles }
+        headerStyle: { ...stackStyles },
+        headerTitleStyle: {
+          ...stackTitleStyles
+        },
       },
       headerLayoutPreset: 'center'
     }

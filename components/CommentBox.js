@@ -60,13 +60,12 @@ const CommentBox = ({
         autoCapitalize="none"
         autoCompleteType="off"
         autoCorrect={false}
-        ref={commentRef}
       />
       <Touchable
         onPress={() => addComment(commentInput.value)}
-        disabled={commentInput.value === ''}
+        disabled={commentInput.value === '' || loading}
       >
-        {loading ? <Loader /> : <Text>게시</Text>}
+        <Text disabled={loading}>게시</Text>
       </Touchable>
     </Container>
   );

@@ -22,6 +22,7 @@ const Message = ({ navigation }) => {
 
   const [me, setMe] = useState('');
   const [newMessages, setNewMessages] = useState(messagesParam);
+  const [randomId, setRandomId] = useState('');
   const sendMessageInput = useInput('');
 
   const [sendMessageMutation] = useMutation(SEND_MESSAGE);
@@ -44,6 +45,21 @@ const Message = ({ navigation }) => {
       return Alert.alert('메시지를 입력해주세요.');
     }
 
+    setValue('');
+
+    const rId = `${new Date().getTime()}__${Math.random(100)}`;
+    setRandomId(rId);
+    setNewMessages([
+      {
+        id: rId,
+        text: message,
+        createdAt: new Date(),
+        from: { id: 'me', username: 'me' },
+        to: { id: toId, username: 'pual' }
+      },
+      ...newMessages
+    ]);
+
     await sendMessageMutation({
       variables: {
         roomId: id,
@@ -51,8 +67,6 @@ const Message = ({ navigation }) => {
         toId
       }
     });
-
-    setValue('');
   };
 
   /**
@@ -61,7 +75,23 @@ const Message = ({ navigation }) => {
   const handleNewMessage = async () => {
     if (messageData !== undefined) {
       const { newMessage } = messageData;
-      await setNewMessages([newMessage, ...newMessages]);
+
+      const isMessage = newMessages.filter(message => message.id === randomId);
+
+      if (isMessage.length > 0) {
+        const newM = newMessages.map(message => {
+          if (message.id === randomId) {
+            message = newMessage;
+          }
+          return message;
+        });
+
+        setNewMessages([...newM]);
+
+        return;
+      }
+
+      setNewMessages([newMessage, ...newMessages]);
     }
   };
 
@@ -88,66 +118,52 @@ const Message = ({ navigation }) => {
   ); */
 
   return (
-    <MessageContainer>
-      <KeyboardAvoidingView
-        behavior="position"
-        enabled
-        keyboardVerticalOffset={90}
-      >
-        <FlatList
-          data={newMessages}
-          renderItem={({ item }) => <MessageColumn {...item} me={me} />}
-          ListEmptyComponent={() => <EmptyList caption="대화 내용이 없습니다." />}
-          keyExtractor={item => item.id}
-          inverted={true}
-          extraData={newMessages}
-          onEndReachedThreshold={0.5}
-          onEndReached={() => {
-            fetchMore({
-              variables: { skip: newMessages.length },
-              updateQuery: (previousResult, { fetchMoreResult }) => {
-                if (!fetchMoreResult || fetchMoreResult.messages.length === 0) {
-                  return previousResult;
-                }
+    <KeyboardAvoidingView
+      behavior="padding"
+      keyboardVerticalOffset={90}
+      style={{ flex: 1 }}
+    >
+      <FlatList
+        data={newMessages}
+        renderItem={({ item }) => <MessageColumn {...item} me={me} />}
+        ListEmptyComponent={() => <EmptyList caption="대화 내용이 없습니다." />}
+        keyExtractor={item => item.id}
+        inverted={true}
+        extraData={newMessages}
+        onEndReachedThreshold={0.5}
+        onEndReached={() => {
+          fetchMore({
+            variables: { skip: newMessages.length },
+            updateQuery: (previousResult, { fetchMoreResult }) => {
+              if (!fetchMoreResult || fetchMoreResult.messages.length === 0) {
+                return previousResult;
+              }
 
-                setNewMessages([
+              /* setNewMessages([
                   ...newMessages,
                   ...Array.from(fetchMoreResult.messages).reverse()
-                ]);
+                ]); */
 
-                return {
-                  // Append the new messages results to the old one
-                  messages: previousResult.messages.concat(
-                    fetchMoreResult.messages
-                  )
-                };
-              }
-            });
-          }}
-          style={{ marginBottom: 50 }}
-        />
-      </KeyboardAvoidingView>
-      <KeyboardAvoidingView
-        behavior="position"
-        enabled
-        keyboardVerticalOffset={88}
-        contentContainerStyle={{
-          position: 'absolute',
-          bottom: 0,
-          justifyContent: 'flex-end'
+              return {
+                // Append the new messages results to the old one
+                messages: previousResult.messages.concat(
+                  fetchMoreResult.messages
+                )
+              };
+            }
+          });
         }}
-      >
-        <MessageInputBox>
-          <MessageInput
-            onChangeText={text => sendMessageInput.setValue(text)}
-            value={sendMessageInput.value}
-            onSubmitEditing={sendMessage}
-            autoCorrect={false}
-            placeholder="메시지를 입력해주세요."
-          />
-        </MessageInputBox>
-      </KeyboardAvoidingView>
-    </MessageContainer>
+      />
+      <MessageInputBox>
+        <MessageInput
+          onChangeText={text => sendMessageInput.setValue(text)}
+          value={sendMessageInput.value}
+          onSubmitEditing={sendMessage}
+          autoCorrect={false}
+          placeholder="메시지를 입력해주세요."
+        />
+      </MessageInputBox>
+    </KeyboardAvoidingView>
   );
 };
 

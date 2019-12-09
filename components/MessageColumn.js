@@ -37,9 +37,9 @@ const Time = styled(Text)`
 
 const Message = ({ from, createdAt, text, me }) => {
   return (
-    <MessageColumn align={from.id === me ? 'right' : ''}>
+    <MessageColumn align={from.id === me || from.id === 'me' ? 'right' : ''}>
       <MessageBox>
-        {from.id !== me && (
+        {from.id !== me && from.id !== 'me' && (
           <>
             <Avatar uri={from.avatar} />
             <Username>{from.username}</Username>

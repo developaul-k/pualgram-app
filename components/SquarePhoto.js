@@ -4,7 +4,7 @@ import { withNavigation } from 'react-navigation';
 import PropTypes from 'prop-types';
 import constants from '../constants';
 
-const SquarePhoto = ({ navigation, files = [], id }) => (
+const SquarePhoto = ({ navigation, files = [], id }) =>
   <TouchableOpacity onPress={() => navigation.navigate('Detail', { id })}>
     <Image
       source={{
@@ -13,10 +13,9 @@ const SquarePhoto = ({ navigation, files = [], id }) => (
             ? `${constants.devServer}${files[0].url}`
             : files[0].url
       }}
-      style={{ width: constants.width / 3, height: constants.height / 6 }}
+      style={{ width: constants.width / 3, height: constants.width / 3 }}
     />
-  </TouchableOpacity>
-);
+  </TouchableOpacity>;
 
 SquarePhoto.propTypes = {
   id: PropTypes.string.isRequired,
