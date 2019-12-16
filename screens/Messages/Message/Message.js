@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { FlatList, Alert, KeyboardAvoidingView } from 'react-native';
+import { FlatList, Alert, KeyboardAvoidingView, Platform } from 'react-native';
 import { useQuery, useMutation, useSubscription } from '@apollo/react-hooks';
+import { Ionicons } from '@expo/vector-icons';
 import {
-  MessageContainer,
   MessageInputBox,
   MessageInput,
+  MessageButton,
   Header,
   HeaderText
 } from './styles';
@@ -48,8 +49,9 @@ const Message = ({ navigation }) => {
     setValue('');
 
     const rId = `${new Date().getTime()}__${Math.random(100)}`;
-    setRandomId(rId);
-    setNewMessages([
+    await setRandomId(rId);
+
+    await setNewMessages([
       {
         id: rId,
         text: message,
@@ -139,10 +141,10 @@ const Message = ({ navigation }) => {
                 return previousResult;
               }
 
-              /* setNewMessages([
-                  ...newMessages,
-                  ...Array.from(fetchMoreResult.messages).reverse()
-                ]); */
+              setNewMessages([
+                ...newMessages,
+                ...Array.from(fetchMoreResult.messages).reverse()
+              ]);
 
               return {
                 // Append the new messages results to the old one
@@ -158,10 +160,17 @@ const Message = ({ navigation }) => {
         <MessageInput
           onChangeText={text => sendMessageInput.setValue(text)}
           value={sendMessageInput.value}
-          onSubmitEditing={sendMessage}
           autoCorrect={false}
+          multiline={true}
           placeholder="메시지를 입력해주세요."
         />
+        <MessageButton onPress={sendMessage}>
+          <Ionicons
+            name={Platform.OS === 'ios' ? 'ios-paper-plane' : 'md-paper-plane'}
+            color="#5d90fc"
+            size={23}
+          />
+        </MessageButton>
       </MessageInputBox>
     </KeyboardAvoidingView>
   );

@@ -11,6 +11,13 @@ export const MessageInputBox = styled.View`
   border-top-color: #f1f1f1;
 `;
 
+export const MessageButton = styled.TouchableOpacity`
+  position: absolute;
+  top: 50%;
+  margin-top: -7px;
+  right: 25px;
+`;
+
 export const MessageInput = styled.TextInput`
   padding-left: 10px;
   width: 100%;
